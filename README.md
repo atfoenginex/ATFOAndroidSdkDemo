@@ -2,6 +2,13 @@
 
 ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（含宿主自渲染）、插屏、激励视频、通知广告五类。
 
+## 接入文档
+
+- 非聚合：<https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd>（本工程的代码按这份文档实现）
+- 聚合：<https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg>
+
+两份章节结构一致（依赖配置 / SDK 初始化 / 广告加载和展示 / 生命周期 / 错误处理 / 隐私数据 / 联调排查 / 注意事项），按自己的投放方式看对应那份。
+
 ## 1. 配置参数
 
 参数全部走 `local.properties`，不需要改任何代码。仓库里只提供一份空值模板 `local.properties.example`（每个 key 都有注释），先复制再生效：
@@ -61,9 +68,3 @@ SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.k
 ```bash
 adb logcat -s ATFOSplashAdActivity:V ATFOFeedAdActivity:V ATFOInterstitialAdActivity:V ATFORewardAdActivity:V ATFONotifyAdActivity:V
 ```
-
-## 4. 常见现象
-
-- 启动页显示 `appId / secret 仍是占位值`：`local.properties` 未配置或未重新编译。
-- 加载回调 `code=1010, message=获取广告配置失败`：appId/secret/mediaId 有误、环境不对，或设备网络不通。
-- 无广告填充：确认代码位 Id 属于当前 appId，且应用包名与后台注册的一致。
