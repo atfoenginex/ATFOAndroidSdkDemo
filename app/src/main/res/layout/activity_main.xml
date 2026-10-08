@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="六类广告各一页，每页代码可整份复制到宿主工程"
             android:textColor="@color/ad_desc"
             android:textSize="13sp" />
 
