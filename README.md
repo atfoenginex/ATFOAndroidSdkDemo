@@ -9,7 +9,16 @@ ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信�
 
 两份章节结构一致（依赖配置 / SDK 初始化 / 广告加载和展示 / 生命周期 / 错误处理 / 隐私数据 / 联调排查 / 注意事项），按自己的投放方式看对应那份。
 
-## 1. 配置参数
+## 1. 注册开户
+
+1. 联系商务人员获取媒体账户
+2. 在管理后台创建应用，获取应用 ID
+3. 创建广告位，获取广告位 ID
+4. 获取安全密钥用于 SDK 初始化
+
+以上步骤请联系对应的商务对接人员！
+
+## 2. 配置参数
 
 参数全部走 `local.properties`，不需要改任何代码。仓库里只提供一份空值模板 `local.properties.example`（每个 key 都有注释），先复制再生效：
 
@@ -37,7 +46,7 @@ atfo.notifySlotId=
 - 通知广告复用信息流代码位，需在后台把该代码位配成「ATFO 模板渲染 + 信息流-通知广告」。
 - 每个 key 都要保留 `atfo.` 前缀，去掉前缀的写法读不到。
 
-## 2. 运行
+## 3. 运行
 
 要求 JDK 17+（Gradle 9.5 / AGP 9.3）、Android SDK 37。模板里的 `sdk.dir` 是注释状态，命令行构建时用环境变量提供，或按自己机器取消注释：
 
@@ -50,7 +59,7 @@ adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category
 
 用 Android Studio 打开工程、点 Run 也可以，Studio 会自动写入 `sdk.dir`。工程已配置 `maven.cxwlad.com` 仓库，首次同步自动拉取 SDK 与三方依赖。
 
-## 3. 查看接入代码
+## 4. 查看接入代码
 
 主页五个按钮各对应一类广告，每类一个独立 Activity，可直接整文件复制到自己的工程：
 
