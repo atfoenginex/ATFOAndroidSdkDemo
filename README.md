@@ -4,10 +4,9 @@ ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信�
 
 ## 接入文档
 
-- 非聚合：<https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd>（本工程的代码按这份文档实现）
+- 非聚合：<https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd>
 - 聚合：<https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg>
 
-两份章节结构一致（依赖配置 / SDK 初始化 / 广告加载和展示 / 生命周期 / 错误处理 / 隐私数据 / 联调排查 / 注意事项），按自己的投放方式看对应那份。
 
 ## 1. 注册开户
 
