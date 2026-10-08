@@ -45,6 +45,7 @@
     <FrameLayout
         android:id="@+id/ad_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp" />
 </LinearLayout>

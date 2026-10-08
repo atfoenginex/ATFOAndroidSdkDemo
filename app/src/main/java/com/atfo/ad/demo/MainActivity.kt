@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.atfo.ad.demo.config.DemoConfig
+import com.atfo.ad.demo.databinding.ActivityMainBinding
 import com.atfo.ad.demo.feed.FeedAdActivity
 import com.atfo.ad.demo.feed.FeedSelfRenderAdActivity
 import com.atfo.ad.demo.interstitial.InterstitialAdActivity
@@ -22,29 +22,32 @@ import com.atfo.ad.demo.splash.SplashAdActivity
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        applySystemBarPadding(findViewById(R.id.main))
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        applySystemBarPadding(binding.main)
 
-        launch(R.id.btn_splash, SplashAdActivity::class.java)
-        launch(R.id.btn_feed, FeedAdActivity::class.java)
-        launch(R.id.btn_feed_self_render, FeedSelfRenderAdActivity::class.java)
-        launch(R.id.btn_interstitial, InterstitialAdActivity::class.java)
-        launch(R.id.btn_reward, RewardAdActivity::class.java)
-        launch(R.id.btn_notify, NotifyAdActivity::class.java)
+        launch(binding.btnSplash, SplashAdActivity::class.java)
+        launch(binding.btnFeed, FeedAdActivity::class.java)
+        launch(binding.btnFeedSelfRender, FeedSelfRenderAdActivity::class.java)
+        launch(binding.btnInterstitial, InterstitialAdActivity::class.java)
+        launch(binding.btnReward, RewardAdActivity::class.java)
+        launch(binding.btnNotify, NotifyAdActivity::class.java)
     }
 
     override fun onResume() {
         super.onResume()
-        findViewById<TextView>(R.id.tv_state).text =
+        binding.tvState.text =
             if (DemoConfig.isAccountConfigured()) DemoConfig.describe()
             else "appId / secret 仍是占位值，请在 local.properties 配置后重新编译"
     }
 
-    private fun launch(buttonId: Int, target: Class<out AppCompatActivity>) {
-        findViewById<Button>(buttonId).setOnClickListener {
+    private fun launch(button: Button, target: Class<out AppCompatActivity>) {
+        button.setOnClickListener {
             startActivity(Intent(this, target))
         }
     }

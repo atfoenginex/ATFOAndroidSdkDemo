@@ -73,7 +73,7 @@ adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category
 | 激励视频 | `app/src/main/java/com/atfo/ad/demo/reward/RewardAdActivity.kt` |
 | 通知广告 | `app/src/main/java/com/atfo/ad/demo/notify/NotifyAdActivity.kt` |
 
-SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.kt`，自渲染视图在 `view/SelfRenderAdView.kt`。
+SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.kt`，自渲染视图在 `view/SelfRenderAdView.kt`（左图右文卡片，布局 `view_self_render_ad.xml`）。
 每个广告页顶部都有「加载广告 / 展示广告 / 返回」三个按钮：进页面不自动加载，点加载才发请求，加载成功后点展示才渲染。页面不做任何跳转，加载与展示/点击/关闭/奖励等回调一律打日志并弹 Toast（不连 adb 也能看到状态），用下面的 TAG 过滤即可看到完整回调流：
 
 ```bash

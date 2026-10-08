@@ -3,7 +3,6 @@ package com.atfo.ad.demo.feed
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updatePadding
 import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
-import com.atfo.ad.demo.R
+import com.atfo.ad.demo.databinding.ActivityFeedAdBinding
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
 import com.atfo.ad.model.ATFOAd
@@ -28,7 +27,7 @@ import com.atfo.ad.model.AdType
  */
 class FeedAdActivity : AppCompatActivity() {
 
-    private lateinit var adContainer: FrameLayout
+    private lateinit var binding: ActivityFeedAdBinding
     private var loader: ATFOAdLoader? = null
     private var feedAdObject: ATFOAd? = null
 
@@ -36,12 +35,12 @@ class FeedAdActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // 状态栏白底黑字：页面背景铺到状态栏后面（见布局的白色背景），图标改成深色
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-        setContentView(R.layout.activity_feed_ad)
-        adContainer = findViewById(R.id.ad_container)
-        findViewById<Button>(R.id.btn_load).setOnClickListener { loadFeedAd() }
-        findViewById<Button>(R.id.btn_show).setOnClickListener { showFeedAd() }
-        findViewById<Button>(R.id.btn_back).setOnClickListener { finish() }
-        applyStatusBarPadding(findViewById(R.id.button_bar))
+        binding = ActivityFeedAdBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.btnLoad.setOnClickListener { loadFeedAd() }
+        binding.btnShow.setOnClickListener { showFeedAd() }
+        binding.btnBack.setOnClickListener { finish() }
+        applyStatusBarPadding(binding.buttonBar)
     }
 
     /** targetSdk 36 起默认边到边，顶部按钮条会被状态栏盖住，这里让出状态栏高度。 */
@@ -59,7 +58,7 @@ class FeedAdActivity : AppCompatActivity() {
         feedAdObject?.destroy()
         feedAdObject = null
         loader?.cancelLoad()
-        adContainer.removeAllViews()
+        binding.adContainer.removeAllViews()
 
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
@@ -108,7 +107,7 @@ class FeedAdActivity : AppCompatActivity() {
             toast(msg)
             return
         }
-        adObject.showAd(adContainer, interactionListener())
+        adObject.showAd(binding.adContainer, interactionListener())
     }
 
     private fun interactionListener(): AdInteractionListener = object : AdInteractionListener {
@@ -165,7 +164,7 @@ class FeedAdActivity : AppCompatActivity() {
         feedAdObject?.destroy()
         feedAdObject = null
         loader?.cancelLoad()
-        adContainer.removeAllViews()
+        binding.adContainer.removeAllViews()
     }
 
     private companion object {

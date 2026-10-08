@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +13,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updatePadding
 import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
-import com.atfo.ad.demo.R
+import com.atfo.ad.demo.databinding.ActivityFeedSelfRenderAdBinding
 import com.atfo.ad.demo.view.SelfRenderAdView
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
@@ -32,7 +31,7 @@ import com.atfo.ad.model.hasRenderableMaterial
  */
 class FeedSelfRenderAdActivity : AppCompatActivity() {
 
-    private lateinit var adContainer: FrameLayout
+    private lateinit var binding: ActivityFeedSelfRenderAdBinding
     private var loader: ATFOAdLoader? = null
     private var feedAdObject: ATFOAd? = null
 
@@ -40,12 +39,12 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // 状态栏白底黑字：页面背景铺到状态栏后面（见布局的白色背景），图标改成深色
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-        setContentView(R.layout.activity_feed_self_render_ad)
-        adContainer = findViewById(R.id.ad_container)
-        findViewById<Button>(R.id.btn_load).setOnClickListener { loadFeedAd() }
-        findViewById<Button>(R.id.btn_show).setOnClickListener { showFeedAd() }
-        findViewById<Button>(R.id.btn_back).setOnClickListener { finish() }
-        applyStatusBarPadding(findViewById(R.id.button_bar))
+        binding = ActivityFeedSelfRenderAdBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.btnLoad.setOnClickListener { loadFeedAd() }
+        binding.btnShow.setOnClickListener { showFeedAd() }
+        binding.btnBack.setOnClickListener { finish() }
+        applyStatusBarPadding(binding.buttonBar)
     }
 
     /** targetSdk 36 起默认边到边，顶部按钮条会被状态栏盖住，这里让出状态栏高度。 */
@@ -63,7 +62,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         feedAdObject?.destroy()
         feedAdObject = null
         loader?.cancelLoad()
-        adContainer.removeAllViews()
+        binding.adContainer.removeAllViews()
 
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
@@ -127,7 +126,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
 
         val sdkView = adObject.getAdView()
         if (sdkView != null) {
-            adContainer.addView(
+            binding.adContainer.addView(
                 sdkView,
                 FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
@@ -135,7 +134,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
                 )
             )
             adObject.registerInteraction(
-                container = adContainer,
+                container = binding.adContainer,
                 clickableViews = listOf(sdkView),
                 closeViews = emptyList(),
                 interactionListener = interactionListener(),
@@ -153,7 +152,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         }
 
         val selfRenderView = SelfRenderAdView(this).apply { bind(info) }
-        adContainer.addView(
+        binding.adContainer.addView(
             selfRenderView,
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -234,7 +233,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         feedAdObject?.destroy()
         feedAdObject = null
         loader?.cancelLoad()
-        adContainer.removeAllViews()
+        binding.adContainer.removeAllViews()
     }
 
     private companion object {
