@@ -2,7 +2,6 @@ package com.atfo.ad.demo.feed
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -114,7 +113,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         showSelfRenderAd(adObject)
     }
 
-    /** 宿主自渲染：优先使用 SDK 提供的 View，其次按物料自建 UI。 */
+    /** 宿主自渲染：卡片一律自建，SDK 给的 View 只是媒体位素材，不能当整张广告铺满。 */
     private fun showSelfRenderAd(adObject: ATFOAd) {
         val info = adObject.nativeInfo
         if (info == null || !info.hasRenderableMaterial()) {
@@ -124,59 +123,35 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
             return
         }
 
-        val sdkView = adObject.getAdView()
-        if (sdkView != null) {
-            binding.adContainer.addView(
-                sdkView,
-                FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT
-                )
-            )
-            adObject.registerInteraction(
-                container = binding.adContainer,
-                clickableViews = listOf(sdkView),
-                closeViews = emptyList(),
-                interactionListener = interactionListener(),
-                adLogoParams = adLogoParams()
-            )
+        val sdkMediaView = adObject.getAdView()
+        if (sdkMediaView == null && info.sdkVideoRender) {
+            Log.w(TAG, "sdkVideoRender=true 但 getAdView() 为空")
             return
         }
 
-        // sdkVideoRender=true 时视频由三方 SDK 渲染，宿主不能自行用 videoUrl 播放
-        if (info.sdkVideoRender) {
-            val msg = "sdkVideoRender=true 但 getAdView() 为空，无法展示"
-            Log.e(TAG, msg)
-            toast(msg)
-            return
+        val selfRenderView = SelfRenderAdView(this).apply {
+            attachMediaView(sdkMediaView)
+            bind(info)
         }
-
-        val selfRenderView = SelfRenderAdView(this).apply { bind(info) }
         binding.adContainer.addView(
             selfRenderView,
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
-            )
+            ).apply {
+                // 卡片自身不带外边距（merge 根带不了 MarginLayoutParams），由承载方设置
+                val margin = (12 * resources.displayMetrics.density).toInt()
+                setMargins(margin, margin, margin, margin)
+            }
         )
         // 容器要先加入视图树，再绑定交互
-        // 宿主自己渲染 adLogo（见 SelfRenderAdView），这里不传 adLogoParams，避免两个角标
+        // 角标统一由宿主按 adLogo 渲染（见 SelfRenderAdView），不传 adLogoParams，避免出现两个角标
         adObject.registerInteraction(
             container = selfRenderView,
             clickableViews = selfRenderView.clickableViews(),
             closeViews = selfRenderView.closeableViews(),
             interactionListener = interactionListener()
         )
-    }
-
-    private fun adLogoParams() = FrameLayout.LayoutParams(
-        FrameLayout.LayoutParams.WRAP_CONTENT,
-        FrameLayout.LayoutParams.WRAP_CONTENT
-    ).apply {
-        gravity = Gravity.END or Gravity.TOP
-        val gap = (8f * resources.displayMetrics.density).toInt()
-        marginStart = gap
-        topMargin = gap
     }
 
     private fun interactionListener(): AdInteractionListener = object : AdInteractionListener {

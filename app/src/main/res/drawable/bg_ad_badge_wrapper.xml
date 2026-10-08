@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 角标容器外框：只给 2dp 圆角，供 clipToOutline 裁掉 logo 图片的方角 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="2dp" />
+</shape>

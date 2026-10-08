@@ -7,4 +7,11 @@
     <color name="btn_load">#3D5AFE</color>
     <color name="btn_show">#00A870</color>
     <color name="btn_back">#6B7280</color>
+
+    <!-- 自渲染广告卡片（与 SDK 内置模板同一套配色） -->
+    <color name="ad_title">#222222</color>
+    <color name="ad_desc">#999999</color>
+    <color name="ad_cta">#2E6DF6</color>
+    <color name="ad_badge_bg">#66000000</color>
+    <color name="ad_close">#999999</color>
 </resources>
