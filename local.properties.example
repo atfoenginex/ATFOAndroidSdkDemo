@@ -1,0 +1,25 @@
+# 用法：复制本文件为 local.properties 后填入自己的值，改配置不需要动代码。
+#     cp local.properties.example local.properties
+# local.properties 不入库（Android Studio 也会往里写 sdk.dir）。
+# 注意：文件里每个 key 都必须保留 "atfo." 前缀，删掉前缀的写法不会生效。
+
+atfo.appId=
+atfo.secret=
+atfo.mediaId=
+# PRODUCTION | STAGING，要与后台环境一致，否则取不到广告配置
+atfo.env=PRODUCTION
+# true 时 SDK 输出内部日志，联调阶段建议打开
+atfo.debug=true
+
+# ==== 应用标识 ====
+# 各广告平台按包名审核，切测试包名改这里
+atfo.applicationId=com.atfo.ad.demo
+atfo.appName=ATFO Demo
+
+# ==== 代码位 Id（向对接运营获取）====
+atfo.splashSlotId=
+atfo.feedSlotId=
+atfo.interstitialSlotId=
+atfo.rewardSlotId=
+# 通知广告复用信息流代码位，后台需配成「ATFO 模板渲染 + 信息流-通知广告」
+atfo.notifySlotId=
