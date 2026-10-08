@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.feed.FeedAdActivity
+import com.atfo.ad.demo.feed.FeedSelfRenderAdActivity
 import com.atfo.ad.demo.interstitial.InterstitialAdActivity
 import com.atfo.ad.demo.notify.NotifyAdActivity
 import com.atfo.ad.demo.reward.RewardAdActivity
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         launch(R.id.btn_splash, SplashAdActivity::class.java)
         launch(R.id.btn_feed, FeedAdActivity::class.java)
+        launch(R.id.btn_feed_self_render, FeedSelfRenderAdActivity::class.java)
         launch(R.id.btn_interstitial, InterstitialAdActivity::class.java)
         launch(R.id.btn_reward, RewardAdActivity::class.java)
         launch(R.id.btn_notify, NotifyAdActivity::class.java)

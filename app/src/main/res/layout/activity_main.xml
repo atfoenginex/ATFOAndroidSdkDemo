@@ -37,7 +37,13 @@
             android:id="@+id/btn_feed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="信息流广告（含宿主自渲染）" />
+            android:text="信息流广告（模板渲染）" />
+
+        <Button
+            android:id="@+id/btn_feed_self_render"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="信息流广告（宿主自渲染）" />
 
         <Button
             android:id="@+id/btn_interstitial"

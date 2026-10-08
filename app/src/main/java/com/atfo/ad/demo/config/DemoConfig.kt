@@ -35,6 +35,12 @@ object DemoConfig {
             AdType.UNKNOWN -> ""
         }
 
+    /**
+     * 信息流自渲染代码位。后台按代码位区分渲染方式：
+     * `atfo.feedSlotId` 配成「ATFO 模板渲染」，`atfo.feedSelfRenderSlotId` 配成「自渲染」。
+     */
+    val feedSelfRenderSlotId: String = BuildConfig.ATFO_FEED_SELF_RENDER_SLOT_ID
+
     /** 通知广告的场景值，后台需把该代码位配成「ATFO 模板渲染 + 信息流-通知广告」。 */
     const val SCENE_NOTIFY = "notify_ad"
 

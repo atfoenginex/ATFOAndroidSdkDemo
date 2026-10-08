@@ -1,6 +1,6 @@
 # ATFOAndroidSdkDemo
 
-ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（含宿主自渲染）、插屏、激励视频、通知广告五类。
+ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（模板渲染 / 宿主自渲染两页）、插屏、激励视频、通知广告五类，共六个页面。
 
 ## 接入文档
 
@@ -33,6 +33,7 @@ atfo.secret=
 atfo.mediaId=
 atfo.splashSlotId=
 atfo.feedSlotId=
+atfo.feedSelfRenderSlotId=
 atfo.interstitialSlotId=
 atfo.rewardSlotId=
 atfo.notifySlotId=
@@ -43,6 +44,7 @@ atfo.notifySlotId=
 - `atfo.debug=true` 时 SDK 输出内部日志，联调阶段建议打开。
 - `atfo.env` 要与后台环境一致（`PRODUCTION` / `STAGING`），不一致会取不到广告配置。
 - 通知广告复用信息流代码位，需在后台把该代码位配成「ATFO 模板渲染 + 信息流-通知广告」。
+- 信息流按渲染方式分两个代码位：`atfo.feedSlotId` 后台配成「ATFO 模板渲染」给模板页用，`atfo.feedSelfRenderSlotId` 配成「自渲染」给自渲染页用。加载日志/Toast 里的 `renderType` 会标明本次物料类型，配错时 Toast 直接提示。
 - 每个 key 都要保留 `atfo.` 前缀，去掉前缀的写法读不到。
 
 ## 3. 运行
@@ -60,12 +62,13 @@ adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category
 
 ## 4. 查看接入代码
 
-主页五个按钮各对应一类广告，每类一个独立 Activity（配套同名布局 `activity_<类型>_ad.xml`），可直接整文件复制到自己的工程：
+主页六个按钮各对应一个接入示例，每页一个独立 Activity（配套同名布局 `activity_<类型>_ad.xml`），可直接整文件复制到自己的工程：
 
 | 广告类型 | 文件 |
 |---|---|
 | 开屏 | `app/src/main/java/com/atfo/ad/demo/splash/SplashAdActivity.kt` |
-| 信息流（模板 + 宿主自渲染） | `app/src/main/java/com/atfo/ad/demo/feed/FeedAdActivity.kt` |
+| 信息流（模板渲染） | `app/src/main/java/com/atfo/ad/demo/feed/FeedAdActivity.kt` |
+| 信息流（宿主自渲染） | `app/src/main/java/com/atfo/ad/demo/feed/FeedSelfRenderAdActivity.kt` |
 | 插屏 | `app/src/main/java/com/atfo/ad/demo/interstitial/InterstitialAdActivity.kt` |
 | 激励视频 | `app/src/main/java/com/atfo/ad/demo/reward/RewardAdActivity.kt` |
 | 通知广告 | `app/src/main/java/com/atfo/ad/demo/notify/NotifyAdActivity.kt` |
@@ -74,5 +77,5 @@ SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.k
 每个广告页顶部都有「加载广告 / 展示广告 / 返回」三个按钮：进页面不自动加载，点加载才发请求，加载成功后点展示才渲染。页面不做任何跳转，加载与展示/点击/关闭/奖励等回调一律打日志并弹 Toast（不连 adb 也能看到状态），用下面的 TAG 过滤即可看到完整回调流：
 
 ```bash
-adb logcat -s ATFOSplashAdActivity:V ATFOFeedAdActivity:V ATFOInterstitialAdActivity:V ATFORewardAdActivity:V ATFONotifyAdActivity:V
+adb logcat -s ATFOSplashAdActivity:V ATFOFeedAdActivity:V ATFOFeedSelfRenderAdActivity:V ATFOInterstitialAdActivity:V ATFORewardAdActivity:V ATFONotifyAdActivity:V
 ```

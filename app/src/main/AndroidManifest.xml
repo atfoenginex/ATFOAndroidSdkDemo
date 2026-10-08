@@ -43,6 +43,9 @@
             android:name=".feed.FeedAdActivity"
             android:exported="false" />
         <activity
+            android:name=".feed.FeedSelfRenderAdActivity"
+            android:exported="false" />
+        <activity
             android:name=".interstitial.InterstitialAdActivity"
             android:exported="false" />
         <activity

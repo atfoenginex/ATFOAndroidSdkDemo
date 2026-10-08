@@ -47,6 +47,7 @@ android {
         stringField("ATFO_ENV", "env", "PRODUCTION")
         stringField("ATFO_SPLASH_SLOT_ID", "splashSlotId", "")
         stringField("ATFO_FEED_SLOT_ID", "feedSlotId", "")
+        stringField("ATFO_FEED_SELF_RENDER_SLOT_ID", "feedSelfRenderSlotId", "")
         stringField("ATFO_INTERSTITIAL_SLOT_ID", "interstitialSlotId", "")
         stringField("ATFO_REWARD_SLOT_ID", "rewardSlotId", "")
         stringField("ATFO_NOTIFY_SLOT_ID", "notifySlotId", "")
