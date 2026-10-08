@@ -5,9 +5,12 @@ plugins {
 }
 
 // 账号与广告位参数只从 local.properties 注入，改配置不用动代码。
+// local.properties 是入库模板，本机真实值写在 local.properties.user（不入库），同名 key 覆盖模板。
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) file.inputStream().use { load(it) }
+    val userFile = rootProject.file("local.properties.user")
+    if (userFile.exists()) userFile.inputStream().use { load(it) }
 }
 
 fun atfoConfig(key: String, defaultValue: String): String =

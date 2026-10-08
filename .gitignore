@@ -1,11 +1,11 @@
 *.iml
 .gradle
-/local.properties
+# 真实账户参数只写这个文件，不入库
+local.properties.user
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
 .idea
 .kotlin
