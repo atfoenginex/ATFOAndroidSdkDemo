@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -13,34 +14,42 @@
         android:padding="12dp">
 
         <Button
+            style="@style/Widget.AtfoDemo.AdButton"
             android:id="@+id/btn_load"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:backgroundTint="@color/btn_load"
-            android:text="加载广告"
-            android:textColor="@color/white" />
+            android:text="加载广告" />
 
         <Button
+            style="@style/Widget.AtfoDemo.AdButton"
             android:id="@+id/btn_show"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:backgroundTint="@color/btn_show"
-            android:text="展示广告"
-            android:textColor="@color/white" />
+            android:text="展示广告" />
 
         <Button
+            style="@style/Widget.AtfoDemo.AdButton"
             android:id="@+id/btn_back"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:backgroundTint="@color/btn_back"
             android:text="返回"
-            android:textColor="@color/white" />
+            android:textColor="@color/btn_back_text"
+            app:rippleColor="#1F000000" />
     </LinearLayout>
+
+    <!-- 操作区与广告区的分界，避免两块白底糊在一起 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEF0F2" />
 
     <FrameLayout
         android:id="@+id/ad_container"

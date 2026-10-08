@@ -3,65 +3,183 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/page_bg"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
             android:text="ATFO 广告 SDK 接入示例"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColor="@color/ad_title"
+            android:textSize="22sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="六类广告各一页，每页代码可整份复制到宿主工程"
+            android:textColor="@color/ad_desc"
+            android:textSize="13sp" />
+
+        <!-- 接入参数自检：未配置时这里会直接提示去 local.properties 填 -->
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_ad_card"
             android:fontFamily="monospace"
+            android:lineSpacingExtra="3dp"
+            android:padding="14dp"
+            android:textColor="@color/ad_title"
             android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/btn_splash"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="开屏广告" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
+            android:paddingStart="4dp"
+            android:text="广告类型"
+            android:textColor="@color/ad_desc"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_feed"
+        <!-- 入口列表：白底圆角容器 + 分隔线，圆角背景与广告卡片共用一份 drawable -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="信息流广告（模板渲染）" />
+            android:background="@drawable/bg_ad_card"
+            android:elevation="1dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_feed_self_render"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="信息流广告（宿主自渲染）" />
+            <LinearLayout
+                android:id="@+id/row_splash"
+                style="@style/Widget.AtfoDemo.EntryRow">
 
-        <Button
-            android:id="@+id/btn_interstitial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="插屏广告" />
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
 
-        <Button
-            android:id="@+id/btn_reward"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="激励视频" />
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="开屏广告" />
 
-        <Button
-            android:id="@+id/btn_notify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="通知广告" />
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="App 启动时全屏展示" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_feed"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="信息流广告（模板渲染）" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="SDK 渲染整张卡片，宿主只提供容器" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_feed_self_render"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="信息流广告（宿主自渲染）" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="宿主渲染卡片，SDK 只提供媒体位" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_interstitial"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="插屏广告" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="场景切换时弹窗展示" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_reward"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="激励视频" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="观看完成后再发放奖励" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_notify"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="通知广告" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="通知栏样式，可带视频素材" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

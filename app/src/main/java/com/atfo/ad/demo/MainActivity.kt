@@ -3,11 +3,11 @@ package com.atfo.ad.demo
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityMainBinding
 import com.atfo.ad.demo.feed.FeedAdActivity
@@ -29,14 +29,15 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
         applySystemBarPadding(binding.main)
 
-        launch(binding.btnSplash, SplashAdActivity::class.java)
-        launch(binding.btnFeed, FeedAdActivity::class.java)
-        launch(binding.btnFeedSelfRender, FeedSelfRenderAdActivity::class.java)
-        launch(binding.btnInterstitial, InterstitialAdActivity::class.java)
-        launch(binding.btnReward, RewardAdActivity::class.java)
-        launch(binding.btnNotify, NotifyAdActivity::class.java)
+        launch(binding.rowSplash, SplashAdActivity::class.java)
+        launch(binding.rowFeed, FeedAdActivity::class.java)
+        launch(binding.rowFeedSelfRender, FeedSelfRenderAdActivity::class.java)
+        launch(binding.rowInterstitial, InterstitialAdActivity::class.java)
+        launch(binding.rowReward, RewardAdActivity::class.java)
+        launch(binding.rowNotify, NotifyAdActivity::class.java)
     }
 
     override fun onResume() {
@@ -46,8 +47,8 @@ class MainActivity : AppCompatActivity() {
             else "appId / secret 仍是占位值，请在 local.properties 配置后重新编译"
     }
 
-    private fun launch(button: Button, target: Class<out AppCompatActivity>) {
-        button.setOnClickListener {
+    private fun launch(row: View, target: Class<out AppCompatActivity>) {
+        row.setOnClickListener {
             startActivity(Intent(this, target))
         }
     }

@@ -3,10 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- 开屏页三个操作按钮的底色 -->
+    <!-- 广告页三个操作按钮的底色：加载/展示用实色，返回用中性浅灰弱化为次要操作 -->
     <color name="btn_load">#3D5AFE</color>
     <color name="btn_show">#00A870</color>
-    <color name="btn_back">#6B7280</color>
+    <color name="btn_back">#F3F4F6</color>
+    <color name="btn_back_text">#374151</color>
+
+    <!-- 首页：浅灰页面底 + 白色入口列表，靠底色差拉开层次，不再用大色块按钮 -->
+    <color name="page_bg">#F5F6F8</color>
+    <color name="divider">#EEF0F2</color>
 
     <!-- 自渲染广告卡片（与 SDK 内置模板同一套配色） -->
     <color name="ad_title">#222222</color>
