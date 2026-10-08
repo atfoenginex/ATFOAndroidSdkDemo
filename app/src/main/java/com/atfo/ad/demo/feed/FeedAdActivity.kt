@@ -113,12 +113,12 @@ class FeedAdActivity : AppCompatActivity() {
             )
         )
         // 容器要先加入视图树，再绑定交互
+        // 宿主自己渲染 adLogo（见 SelfRenderAdView），这里不传 adLogoParams，避免两个角标
         adObject.registerInteraction(
             container = selfRenderView,
             clickableViews = selfRenderView.clickableViews(),
             closeViews = selfRenderView.closeableViews(),
-            interactionListener = interactionListener(),
-            adLogoParams = adLogoParams()
+            interactionListener = interactionListener()
         )
     }
 
