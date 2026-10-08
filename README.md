@@ -60,7 +60,7 @@ adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category
 
 ## 4. 查看接入代码
 
-主页五个按钮各对应一类广告，每类一个独立 Activity，可直接整文件复制到自己的工程：
+主页五个按钮各对应一类广告，每类一个独立 Activity（配套同名布局 `activity_<类型>_ad.xml`），可直接整文件复制到自己的工程：
 
 | 广告类型 | 文件 |
 |---|---|
@@ -71,7 +71,7 @@ adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category
 | 通知广告 | `app/src/main/java/com/atfo/ad/demo/notify/NotifyAdActivity.kt` |
 
 SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.kt`，自渲染视图在 `view/SelfRenderAdView.kt`。
-广告页不做任何跳转，展示/点击/关闭/奖励等回调只打日志，用下面的 TAG 过滤即可看到完整回调流：
+每个广告页顶部都有「加载广告 / 展示广告 / 返回」三个按钮：进页面不自动加载，点加载才发请求，加载成功后点展示才渲染。页面不做任何跳转，加载与展示/点击/关闭/奖励等回调一律打日志并弹 Toast（不连 adb 也能看到状态），用下面的 TAG 过滤即可看到完整回调流：
 
 ```bash
 adb logcat -s ATFOSplashAdActivity:V ATFOFeedAdActivity:V ATFOInterstitialAdActivity:V ATFORewardAdActivity:V ATFONotifyAdActivity:V

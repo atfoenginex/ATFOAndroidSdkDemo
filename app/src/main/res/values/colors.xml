@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 开屏页三个操作按钮的底色 -->
+    <color name="btn_load">#3D5AFE</color>
+    <color name="btn_show">#00A870</color>
+    <color name="btn_back">#6B7280</color>
 </resources>

@@ -2,8 +2,15 @@ package com.atfo.ad.demo.splash
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updatePadding
 import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.R
@@ -14,7 +21,8 @@ import com.atfo.ad.model.ATFOAdSlot
 import com.atfo.ad.model.AdType
 
 /**
- * 开屏广告：加载成功后渲染到容器，本页只负责展示与回调日志。
+ * 开屏广告：进页面不自动加载，点「加载广告」才发起请求，成功后点「展示广告」渲染到容器。
+ * 本页只负责展示与回调，每个回调都打日志并弹 Toast，不做任何跳转。
  * timeout 不在本地设置，统一由管理后台下发。
  */
 class SplashAdActivity : AppCompatActivity() {
@@ -25,12 +33,33 @@ class SplashAdActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ad_container)
+        // 状态栏白底黑字：页面背景铺到状态栏后面（见布局的白色背景），图标改成深色
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        setContentView(R.layout.activity_splash_ad)
         adContainer = findViewById(R.id.ad_container)
-        loadSplashAd()
+        findViewById<Button>(R.id.btn_load).setOnClickListener { loadSplashAd() }
+        findViewById<Button>(R.id.btn_show).setOnClickListener { showSplashAd() }
+        findViewById<Button>(R.id.btn_back).setOnClickListener { finish() }
+        applyStatusBarPadding(findViewById(R.id.button_bar))
+    }
+
+    /** targetSdk 36 起默认边到边，顶部按钮条会被状态栏盖住，这里让出状态栏高度。 */
+    private fun applyStatusBarPadding(buttonBar: View) {
+        val basePaddingTop = buttonBar.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(buttonBar) { view, insets ->
+            val statusBarTop = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+            view.updatePadding(top = basePaddingTop + statusBarTop)
+            insets
+        }
     }
 
     private fun loadSplashAd() {
+        // 重新加载前先释放上一次的广告对象与请求
+        splashAdObject?.destroy()
+        splashAdObject = null
+        loader?.cancelLoad()
+        adContainer.removeAllViews()
+
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.SPLASH)
             .activity(this)
@@ -42,45 +71,82 @@ class SplashAdActivity : AppCompatActivity() {
         loader = adLoader
         adLoader.loadAd(adSlot, object : ATFOAdLoader.AdLoadListener {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
-                Log.d(TAG, "开屏广告加载成功, adId=${adObject.adId}, price=${adObject.price}")
+                val msg = "开屏广告加载成功, adId=${adObject.adId}, price=${adObject.price}"
+                Log.d(TAG, msg)
+                toast(msg)
                 splashAdObject = adObject
-                showSplashAd()
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
-                Log.e(TAG, "开屏广告加载失败, code=${error.code}, message=${error.message}")
+                val msg = "开屏广告加载失败, code=${error.code}, message=${error.message}"
+                Log.e(TAG, msg)
+                toast(msg)
             }
         })
     }
 
     private fun showSplashAd() {
-        val adObject = splashAdObject ?: return
+        val adObject = splashAdObject
+        if (adObject == null) {
+            val msg = "尚未加载到广告，请先点击「加载广告」"
+            Log.w(TAG, msg)
+            toast(msg)
+            return
+        }
         if (!adObject.isValid()) {
-            Log.w(TAG, "开屏广告已失效")
+            val msg = "开屏广告已失效，请重新加载"
+            Log.w(TAG, msg)
+            toast(msg)
             return
         }
         adObject.showAd(adContainer, object : AdInteractionListener {
-            override fun onAdShowSuccess() { Log.d(TAG, "开屏广告展示成功") }
+            override fun onAdShowSuccess() {
+                val msg = "开屏广告展示成功"
+                Log.d(TAG, msg)
+                toast(msg)
+            }
+
             override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
-                Log.e(TAG, "开屏广告展示失败, code=$errorCode, message=$errorMessage")
+                val msg = "开屏广告展示失败, code=$errorCode, message=$errorMessage"
+                Log.e(TAG, msg)
+                toast(msg)
             }
 
             override fun onAdClicked() {
-                Log.d(TAG, "开屏广告被点击")
+                val msg = "开屏广告被点击"
+                Log.d(TAG, msg)
+                toast(msg)
             }
 
             override fun onAdClosed() {
-                Log.d(TAG, "开屏广告被关闭")
+                val msg = "开屏广告被关闭"
+                Log.d(TAG, msg)
+                toast(msg)
             }
 
             override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
-                Log.e(TAG, "开屏广告渲染失败, code=$errorCode, message=$errorMessage")
-
+                val msg = "开屏广告渲染失败, code=$errorCode, message=$errorMessage"
+                Log.e(TAG, msg)
+                toast(msg)
             }
 
-            override fun onAdExposed() { Log.d(TAG, "开屏广告曝光") }
-            override fun onReward() = Unit
+            override fun onAdExposed() {
+                val msg = "开屏广告曝光"
+                Log.d(TAG, msg)
+                toast(msg)
+            }
+
+            override fun onReward() {
+                val msg = "开屏广告收到奖励回调"
+                Log.d(TAG, msg)
+                toast(msg)
+            }
         })
+    }
+
+    /** 回调文案同步弹 Toast，不连 adb 也能看到状态。 */
+    private fun toast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
