@@ -10,7 +10,7 @@ import com.atfo.ad.demo.databinding.ActivityFeedSelfRenderAdBinding
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.dp
 import com.atfo.ad.demo.utils.lightStatusBar
-import com.atfo.ad.demo.utils.toast
+import com.atfo.ad.demo.utils.logAndToast
 import com.atfo.ad.demo.view.SelfRenderAdView
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
@@ -64,15 +64,13 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 val msg = "信息流自渲染广告加载成功, adId=${adObject.adId}, price=${adObject.price}, " +
                         "renderType=${if (adObject.isNativeExpress()) "模板" else "自渲染"}"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
                 feedAdObject = adObject
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
                 val msg = "信息流自渲染广告加载失败, code=${error.code}, message=${error.message}"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
         })
     }
@@ -81,20 +79,17 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         val adObject = feedAdObject
         if (adObject == null) {
             val msg = "尚未加载到广告，请先点击「加载广告」"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         if (!adObject.isValid()) {
             val msg = "信息流自渲染广告已失效，请重新加载"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         if (adObject.isNativeExpress()) {
             val msg = "该代码位返回的是模板渲染物料，请检查后台代码位配置"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         showSelfRenderAd(adObject)
@@ -105,8 +100,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         val info = adObject.nativeInfo
         if (info == null || !info.hasRenderableMaterial()) {
             val msg = "自渲染广告物料为空或不足"
-            Log.e(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.ERROR)
             return
         }
 
@@ -144,44 +138,37 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
     private fun interactionListener(): AdInteractionListener = object : AdInteractionListener {
         override fun onAdShowSuccess() {
             val msg = "信息流自渲染广告展示成功"
-            Log.d(TAG, msg)
-            toast(msg)
+            logAndToast(msg)
         }
 
         override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
             val msg = "信息流自渲染广告展示失败, code=$errorCode, message=$errorMessage"
-            Log.e(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.ERROR)
         }
 
         override fun onAdClicked() {
             val msg = "信息流自渲染广告被点击"
-            Log.d(TAG, msg)
-            toast(msg)
+            logAndToast(msg)
         }
 
         override fun onAdClosed() {
             val msg = "信息流自渲染广告被关闭"
-            Log.d(TAG, msg)
-            toast(msg)
+            logAndToast(msg)
         }
 
         override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
             val msg = "信息流自渲染广告渲染失败, code=$errorCode, message=$errorMessage"
-            Log.e(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.ERROR)
         }
 
         override fun onAdExposed() {
             val msg = "信息流自渲染广告曝光"
-            Log.d(TAG, msg)
-            toast(msg)
+            logAndToast(msg)
         }
 
         override fun onReward() {
             val msg = "信息流自渲染广告收到奖励回调"
-            Log.d(TAG, msg)
-            toast(msg)
+            logAndToast(msg)
         }
     }
 

@@ -8,7 +8,7 @@ import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityRewardAdBinding
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.lightStatusBar
-import com.atfo.ad.demo.utils.toast
+import com.atfo.ad.demo.utils.logAndToast
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
 import com.atfo.ad.model.ATFOAd
@@ -56,15 +56,13 @@ class RewardAdActivity : AppCompatActivity() {
         adLoader.loadAd(adSlot, object : ATFOAdLoader.AdLoadListener {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 val msg = "激励视频加载成功, adId=${adObject.adId}, price=${adObject.price}"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
                 rewardAdObject = adObject
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
                 val msg = "激励视频加载失败, code=${error.code}, message=${error.message}"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
         })
     }
@@ -73,58 +71,49 @@ class RewardAdActivity : AppCompatActivity() {
         val adObject = rewardAdObject
         if (adObject == null) {
             val msg = "尚未加载到广告，请先点击「加载广告」"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         if (!adObject.isValid()) {
             val msg = "激励视频已失效，请重新加载"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         adObject.showAd(this@RewardAdActivity, object : AdInteractionListener {
             override fun onAdShowSuccess() {
                 val msg = "激励视频展示成功"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
                 val msg = "激励视频展示失败, code=$errorCode, message=$errorMessage"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
 
             override fun onAdClicked() {
                 val msg = "激励视频被点击"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdClosed() {
                 val msg = "激励视频被关闭"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
                 val msg = "激励视频渲染失败, code=$errorCode, message=$errorMessage"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
 
             override fun onAdExposed() {
                 val msg = "激励视频曝光"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onReward() {
                 // 达标回调即发奖时机，真实业务在这里发放奖励
                 val msg = "激励视频达标，发放奖励"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
         })
     }
@@ -134,9 +123,5 @@ class RewardAdActivity : AppCompatActivity() {
         rewardAdObject?.destroy()
         rewardAdObject = null
         loader?.cancelLoad()
-    }
-
-    private companion object {
-        const val TAG = "ATFORewardAdActivity"
     }
 }

@@ -8,7 +8,7 @@ import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivitySplashAdBinding
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.lightStatusBar
-import com.atfo.ad.demo.utils.toast
+import com.atfo.ad.demo.utils.logAndToast
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
 import com.atfo.ad.model.ATFOAd
@@ -56,15 +56,13 @@ class SplashAdActivity : AppCompatActivity() {
         adLoader.loadAd(adSlot, object : ATFOAdLoader.AdLoadListener {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 val msg = "开屏广告加载成功, adId=${adObject.adId}, price=${adObject.price}"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
                 splashAdObject = adObject
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
                 val msg = "开屏广告加载失败, code=${error.code}, message=${error.message}"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
         })
     }
@@ -73,57 +71,48 @@ class SplashAdActivity : AppCompatActivity() {
         val adObject = splashAdObject
         if (adObject == null) {
             val msg = "尚未加载到广告，请先点击「加载广告」"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         if (!adObject.isValid()) {
             val msg = "开屏广告已失效，请重新加载"
-            Log.w(TAG, msg)
-            toast(msg)
+            logAndToast(msg, Log.WARN)
             return
         }
         adObject.showAd(binding.adContainer, object : AdInteractionListener {
             override fun onAdShowSuccess() {
                 val msg = "开屏广告展示成功"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
                 val msg = "开屏广告展示失败, code=$errorCode, message=$errorMessage"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
 
             override fun onAdClicked() {
                 val msg = "开屏广告被点击"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdClosed() {
                 val msg = "开屏广告被关闭"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
                 val msg = "开屏广告渲染失败, code=$errorCode, message=$errorMessage"
-                Log.e(TAG, msg)
-                toast(msg)
+                logAndToast(msg, Log.ERROR)
             }
 
             override fun onAdExposed() {
                 val msg = "开屏广告曝光"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
 
             override fun onReward() {
                 val msg = "开屏广告收到奖励回调"
-                Log.d(TAG, msg)
-                toast(msg)
+                logAndToast(msg)
             }
         })
     }
@@ -133,9 +122,5 @@ class SplashAdActivity : AppCompatActivity() {
         splashAdObject?.destroy()
         splashAdObject = null
         loader?.cancelLoad()
-    }
-
-    private companion object {
-        const val TAG = "ATFOSplashAdActivity"
     }
 }
