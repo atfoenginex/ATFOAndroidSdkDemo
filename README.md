@@ -99,7 +99,7 @@ Demo 默认只依赖 `com.atfo.ad:core`，ATFO 自有广告源开箱即用。SDK
 | 泛为             | `adapt-fw` | `com.atfo.ad.adapt.fw.initializer.FWAdSourceInitializer` |
 | 旺脉             | `adapt-wm` | `com.atfo.ad.adapt.wm.initializer.WMAdSourceInitializer` |
 
-三方广告 SDK 本体由 adapter 的 POM 传递引入，不需要单独添加依赖。注册调用即完整类名的简名加 `.register()`。两个包名特例留意一下：美数在 `com.atfo.ad.adapter.ms...`（是 `adapter` 不是 `adapt`），优酷在 `com.atfo.ad.adapt.fanti.initializer`（类名仍是 `YKAdSourceInitializer`）。
+三方广告 SDK 本体由 adapter 的 POM 传递引入，不需要单独添加依赖。
 
 以接入优量汇为例，`app/build.gradle.kts` 追加依赖：
 
