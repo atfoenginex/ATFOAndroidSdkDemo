@@ -55,7 +55,6 @@ atfo.notifySlotId=
 export ANDROID_HOME=$HOME/Library/Android/sdk      # macOS 示例
 ./gradlew :app:assembleDebug                        # 产物 app/build/outputs/apk/debug/
 ./gradlew :app:installDebug                         # 装机
-adb shell monkey -p <atfo.applicationId 里的包名> -c android.intent.category.LAUNCHER 1
 ```
 
 用 Android Studio 打开工程、点 Run 也可以，Studio 会自动写入 `sdk.dir`。工程已配置 `maven.cxwlad.com` 仓库，首次同步自动拉取 SDK 与三方依赖。
