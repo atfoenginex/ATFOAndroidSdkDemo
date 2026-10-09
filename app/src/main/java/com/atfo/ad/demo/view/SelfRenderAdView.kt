@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.VideoView
-import androidx.core.content.ContextCompat
 import com.atfo.ad.demo.R
 import com.atfo.ad.demo.databinding.ViewSelfRenderAdBinding
+import com.atfo.ad.demo.utils.dp
 import com.atfo.ad.model.ATFONativeFeedAdData
 import com.atfo.ad.model.primaryImageUrl
-import com.atfo.ad.source.AdSource
 import com.bumptech.glide.Glide
 
 /**
@@ -29,7 +28,7 @@ class SelfRenderAdView(context: Context) : FrameLayout(context) {
     init {
         setBackgroundResource(R.drawable.bg_ad_card)
         // 容器与卡片同为白底，靠阴影给出边界
-        elevation = dp(3).toFloat()
+        elevation = 3.dp(context).toFloat()
         // 圆角裁剪用代码设置（XML 的 android:clipToOutline 属性要 API 31 才生效）
         binding.flMedia.clipToOutline = true
         binding.llBadge.clipToOutline = true
@@ -158,8 +157,6 @@ class SelfRenderAdView(context: Context) : FrameLayout(context) {
 
     fun closeableViews(): List<View> = listOf(closeView)
 
-    private fun dp(value: Int): Int = (value * context.resources.displayMetrics.density).toInt()
-
     /** http(s) 且以图片扩展名结尾，视为服务端下发的图片形式 CTA */
     private fun isImageUrl(url: String): Boolean {
         if (!url.startsWith("http://") && !url.startsWith("https://")) return false
@@ -174,6 +171,6 @@ class SelfRenderAdView(context: Context) : FrameLayout(context) {
     }
 
     private companion object {
-        val IMAGE_EXTENSIONS = listOf(".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp")
+        private val IMAGE_EXTENSIONS = listOf(".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp")
     }
 }

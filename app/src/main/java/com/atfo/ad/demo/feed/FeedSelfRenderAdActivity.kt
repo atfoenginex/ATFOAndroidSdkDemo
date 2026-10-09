@@ -8,6 +8,7 @@ import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityFeedSelfRenderAdBinding
 import com.atfo.ad.demo.utils.applyStatusBarPadding
+import com.atfo.ad.demo.utils.dp
 import com.atfo.ad.demo.utils.lightStatusBar
 import com.atfo.ad.demo.utils.toast
 import com.atfo.ad.demo.view.SelfRenderAdView
@@ -126,7 +127,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
                 FrameLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 // 卡片自身不带外边距（merge 根带不了 MarginLayoutParams），由承载方设置
-                val margin = (12 * resources.displayMetrics.density).toInt()
+                val margin = 12.dp(this@FeedSelfRenderAdActivity)
                 setMargins(margin, margin, margin, margin)
             }
         )
