@@ -38,9 +38,8 @@ class SplashAdActivity : AppCompatActivity() {
     }
 
     private fun loadSplashAd() {
-        // 重新加载前先释放上一次的广告对象与请求
-        splashAdObject?.destroy()
-        splashAdObject = null
+        // 重新加载前先释放上一次的广告对象，并取消在途请求
+        releaseAd()
         loader?.cancelLoad()
         binding.adContainer.removeAllViews()
 
@@ -117,10 +116,16 @@ class SplashAdActivity : AppCompatActivity() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    /** 释放当前广告对象；重新加载前与 onDestroy 调用。 */
+    private fun releaseAd() {
         splashAdObject?.destroy()
         splashAdObject = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseAd()
         loader?.cancelLoad()
+        loader = null
     }
 }

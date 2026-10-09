@@ -39,9 +39,8 @@ class NotifyAdActivity : AppCompatActivity() {
     }
 
     private fun loadNotifyAd() {
-        // 重新加载前先释放上一次的广告对象与请求
-        notifyAdObject?.destroy()
-        notifyAdObject = null
+        // 重新加载前先释放上一次的广告对象，并取消在途请求
+        releaseAd()
         loader?.cancelLoad()
         binding.adContainer.removeAllViews()
 
@@ -119,11 +118,17 @@ class NotifyAdActivity : AppCompatActivity() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    /** 释放当前广告对象；重新加载前与 onDestroy 调用。 */
+    private fun releaseAd() {
         notifyAdObject?.destroy()
         notifyAdObject = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseAd()
         loader?.cancelLoad()
+        loader = null
         binding.adContainer.removeAllViews()
     }
 }

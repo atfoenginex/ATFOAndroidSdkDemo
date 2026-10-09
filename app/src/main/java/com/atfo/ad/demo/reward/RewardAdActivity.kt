@@ -38,9 +38,8 @@ class RewardAdActivity : AppCompatActivity() {
     }
 
     private fun loadRewardAd() {
-        // 重新加载前先释放上一次的广告对象与请求
-        rewardAdObject?.destroy()
-        rewardAdObject = null
+        // 重新加载前先释放上一次的广告对象，并取消在途请求
+        releaseAd()
         loader?.cancelLoad()
 
         val adSlot = ATFOAdSlot.Builder()
@@ -118,10 +117,16 @@ class RewardAdActivity : AppCompatActivity() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    /** 释放当前广告对象；重新加载前与 onDestroy 调用。 */
+    private fun releaseAd() {
         rewardAdObject?.destroy()
         rewardAdObject = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseAd()
         loader?.cancelLoad()
+        loader = null
     }
 }
