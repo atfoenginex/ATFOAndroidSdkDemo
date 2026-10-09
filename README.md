@@ -57,8 +57,6 @@ export ANDROID_HOME=$HOME/Library/Android/sdk      # macOS 示例
 ./gradlew :app:installDebug                         # 装机
 ```
 
-用 Android Studio 打开工程、点 Run 也可以，Studio 会自动写入 `sdk.dir`。工程已配置 `maven.cxwlad.com` 仓库，首次同步自动拉取 SDK 与三方依赖。
-
 ## 4. 查看接入代码
 
 主页六个按钮各对应一个接入示例，每页一个独立 Activity（配套同名布局 `activity_<类型>_ad.xml`），可直接整文件复制到自己的工程：
