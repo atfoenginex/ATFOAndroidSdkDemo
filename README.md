@@ -31,19 +31,31 @@ cp local.properties.example local.properties
 atfo.appId=
 atfo.secret=
 atfo.mediaId=
+# PRODUCTION | STAGING，要与后台环境一致，否则取不到广告配置
+atfo.env=PRODUCTION
+# true 时 SDK 输出内部日志，联调阶段建议打开
+atfo.debug=true
+
+# ==== 应用标识 ====
+# 包名，必填
+atfo.applicationId=com.atfo.ad.demo
+# App name
+atfo.appName=ATFO Demo
+
+# ==== 代码位 Id（向对接运营获取）====
 atfo.splashSlotId=
+# 信息流分两个代码位：下面这个后台配成「ATFO 模板渲染」
 atfo.feedSlotId=
+# 这个配成「自渲染」，供信息流自渲染页使用
 atfo.feedSelfRenderSlotId=
 atfo.interstitialSlotId=
 atfo.rewardSlotId=
+# 通知广告复用信息流代码位，后台需配成「ATFO 模板渲染 + 信息流-通知广告」
 atfo.notifySlotId=
 ```
 
-`local.properties` 已被 `.gitignore` 忽略，不会误提交密钥；`atfo.applicationId`、`atfo.appName`、`atfo.env`、`atfo.debug` 模板里已给了默认值，按需修改。
+`local.properties` 已被 `.gitignore` 忽略，不会误提交密钥。
 
-- `atfo.debug=true` 时 SDK 输出内部日志，联调阶段建议打开。
-- `atfo.env` 要与后台环境一致（`PRODUCTION` / `STAGING`），不一致会取不到广告配置。
-- 通知广告复用信息流代码位，需在后台把该代码位配成「ATFO 模板渲染 + 信息流-通知广告」。
 - 信息流按渲染方式分两个代码位：`atfo.feedSlotId` 后台配成「ATFO 模板渲染」给模板页用，`atfo.feedSelfRenderSlotId` 配成「自渲染」给自渲染页用。加载日志/Toast 里的 `renderType` 会标明本次物料类型，配错时 Toast 直接提示。
 - 每个 key 都要保留 `atfo.` 前缀，去掉前缀的写法读不到。
 
