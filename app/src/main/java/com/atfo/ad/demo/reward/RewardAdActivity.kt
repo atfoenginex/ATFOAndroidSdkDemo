@@ -2,16 +2,13 @@ package com.atfo.ad.demo.reward
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updatePadding
 import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityRewardAdBinding
+import com.atfo.ad.demo.utils.applyStatusBarPadding
+import com.atfo.ad.demo.utils.lightStatusBar
+import com.atfo.ad.demo.utils.toast
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
 import com.atfo.ad.model.ATFOAd
@@ -31,24 +28,13 @@ class RewardAdActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 状态栏白底黑字：页面背景铺到状态栏后面（见布局的白色背景），图标改成深色
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        lightStatusBar()
         binding = ActivityRewardAdBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnLoad.setOnClickListener { loadRewardAd() }
         binding.btnShow.setOnClickListener { showRewardAd() }
         binding.btnBack.setOnClickListener { finish() }
-        applyStatusBarPadding(binding.buttonBar)
-    }
-
-    /** targetSdk 36 起默认边到边，顶部按钮条会被状态栏盖住，这里让出状态栏高度。 */
-    private fun applyStatusBarPadding(buttonBar: View) {
-        val basePaddingTop = buttonBar.paddingTop
-        ViewCompat.setOnApplyWindowInsetsListener(buttonBar) { view, insets ->
-            val statusBarTop = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
-            view.updatePadding(top = basePaddingTop + statusBarTop)
-            insets
-        }
+        binding.buttonBar.applyStatusBarPadding()
     }
 
     private fun loadRewardAd() {
@@ -141,11 +127,6 @@ class RewardAdActivity : AppCompatActivity() {
                 toast(msg)
             }
         })
-    }
-
-    /** 回调文案同步弹 Toast，不连 adb 也能看到状态。 */
-    private fun toast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityMainBinding
 import com.atfo.ad.demo.feed.FeedAdActivity
@@ -16,6 +13,8 @@ import com.atfo.ad.demo.interstitial.InterstitialAdActivity
 import com.atfo.ad.demo.notify.NotifyAdActivity
 import com.atfo.ad.demo.reward.RewardAdActivity
 import com.atfo.ad.demo.splash.SplashAdActivity
+import com.atfo.ad.demo.utils.applySystemBarPadding
+import com.atfo.ad.demo.utils.lightStatusBar
 
 /**
  * 入口页：按广告类型分别演示接入方式。
@@ -29,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-        applySystemBarPadding(binding.main)
+        lightStatusBar()
+        binding.main.applySystemBarPadding()
 
         launch(binding.rowSplash, SplashAdActivity::class.java)
         launch(binding.rowFeed, FeedAdActivity::class.java)
@@ -50,15 +49,6 @@ class MainActivity : AppCompatActivity() {
     private fun launch(row: View, target: Class<out AppCompatActivity>) {
         row.setOnClickListener {
             startActivity(Intent(this, target))
-        }
-    }
-
-    /** targetSdk 36 起默认边到边，内容会顶到状态栏/导航栏，这里把系统栏尺寸让出来。 */
-    private fun applySystemBarPadding(root: View) {
-        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
         }
     }
 }
