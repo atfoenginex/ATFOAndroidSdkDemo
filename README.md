@@ -44,7 +44,7 @@ atfo.appName=ATFO Demo
 
 # ==== 代码位 Id（向对接运营获取）====
 atfo.splashSlotId=
-# 信息流分两个代码位：下面这个后台配成「ATFO 模板渲染」
+# 信息流分两个代码位：下面这个后台配成「模板渲染」
 atfo.feedSlotId=
 # 这个配成「自渲染」，供信息流自渲染页使用
 atfo.feedSelfRenderSlotId=
