@@ -79,3 +79,40 @@ SDK 初始化在 `AtfoDemoApplication.kt`，参数读取在 `config/DemoConfig.k
 ```bash
 adb logcat -s ATFOSplashAdActivity:V ATFOFeedAdActivity:V ATFOFeedSelfRenderAdActivity:V ATFOInterstitialAdActivity:V ATFORewardAdActivity:V ATFONotifyAdActivity:V
 ```
+
+## 5. 三方广告网络 adapter
+
+Demo 默认只依赖 `com.atfo.ad:core`，ATFO 自有广告源开箱即用。SDK 还内置了多家三方广告网络的 adapter，按需追加依赖（groupId 统一为 `com.atfo.ad.adapt`，版本与 core 保持一致，见 `gradle/libs.versions.toml` 的 `atfoCore`），并在 SDK 初始化前调用对应 `register()`：
+
+| 广告网络           | 依赖坐标（`com.atfo.ad.adapt:` 前缀） | 注册类（`import` 完整类名） |
+|----------------|---|---|
+| GroMore（穿山甲聚合） | `adapt-gromore` | `com.atfo.ad.adapt.gromore.initializer.GRMAdSourceInitializer` |
+| 优量汇（广点通）       | `adapt-gdt` | `com.atfo.ad.adapt.gdt.initializer.GDTAdSourceInitializer` |
+| 百度             | `adapt-baidu` | `com.atfo.ad.adapt.baidu.initializer.BaiduAdSourceInitializer` |
+| 快手             | `adapt-ks` | `com.atfo.ad.adapt.ks.initializer.KSAdSourceInitializer` |
+| 美数             | `adapt-ms` | `com.atfo.ad.adapter.ms.initializer.MSAdSourceInitializer` |
+| 趣盟             | `adapt-qumeng` | `com.atfo.ad.adapt.qumeng.initializer.QuMengAdSourceInitializer` |
+| 倍孜             | `adapt-bz` | `com.atfo.ad.adapt.bz.initializer.BZAdSourceInitializer` |
+| 优酷             | `adapt-yk` | `com.atfo.ad.adapt.fanti.initializer.YKAdSourceInitializer` |
+| 汇川（Noah）       | `adapt-noah` | `com.atfo.ad.adapt.noah.initializer.NoahAdSourceInitializer` |
+| Sigmob         | `adapt-sigmob` | `com.atfo.ad.adapt.sigmob.initializer.SigmobAdSourceInitializer` |
+| 泛为             | `adapt-fw` | `com.atfo.ad.adapt.fw.initializer.FWAdSourceInitializer` |
+| 旺脉             | `adapt-wm` | `com.atfo.ad.adapt.wm.initializer.WMAdSourceInitializer` |
+
+三方广告 SDK 本体由 adapter 的 POM 传递引入，不需要单独添加依赖。注册调用即完整类名的简名加 `.register()`。两个包名特例留意一下：美数在 `com.atfo.ad.adapter.ms...`（是 `adapter` 不是 `adapt`），优酷在 `com.atfo.ad.adapt.fanti.initializer`（类名仍是 `YKAdSourceInitializer`）。
+
+以接入优量汇为例，`app/build.gradle.kts` 追加依赖：
+
+```kotlin
+implementation("com.atfo.ad.adapt:adapt-gdt:2.9.4")
+```
+
+然后在 `Application#onCreate` 里、SDK `init` 之前导入并注册：
+
+```kotlin
+import com.atfo.ad.adapt.gdt.initializer.GDTAdSourceInitializer
+
+GDTAdSourceInitializer.register()
+```
+
+不需要某家网络参与时，把对应 `AdSource` 放进初始化参数的 `forbidNetworkList` 即可禁用，`AtfoDemoApplication.kt` 里有注释示例。
