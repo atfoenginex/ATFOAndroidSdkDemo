@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.atfo.ad.core.ATFOAdLoader
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityRewardAdBinding
+import com.atfo.ad.demo.utils.AdPriceUtils
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.lightStatusBar
 import com.atfo.ad.demo.utils.logAndToast
@@ -54,7 +55,7 @@ class RewardAdActivity : AppCompatActivity() {
         loader = adLoader
         adLoader.loadAd(adSlot, object : ATFOAdLoader.AdLoadListener {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
-                val msg = "激励视频加载成功, adId=${adObject.adId}, price=${adObject.price}"
+                val msg = "激励视频加载成功, adId=${adObject.adId}, price=${AdPriceUtils.getPrice(adObject)}"
                 logAndToast(msg)
                 rewardAdObject = adObject
             }

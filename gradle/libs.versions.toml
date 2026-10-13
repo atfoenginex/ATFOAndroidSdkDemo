@@ -8,7 +8,8 @@ appcompat = "1.8.0"
 material = "1.14.0"
 activityKtx = "1.13.0"
 constraintlayout = "2.2.2"
-atfoCore = "2.9.4"
+atfoCore = "2.9.5"
+atfoAdapt = "2.9.6"
 okhttp = "4.9.0"
 glide = "4.11.0"
 
@@ -22,6 +23,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 atfo-core = { group = "com.atfo.ad", name = "core", version.ref = "atfoCore" }
+atfo-adapt-gdt = { group = "com.atfo.ad.adapt", name = "adapt-gdt", version.ref = "atfoAdapt" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 

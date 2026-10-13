@@ -2,6 +2,7 @@ package com.atfo.ad.demo
 
 import android.app.Application
 import android.util.Log
+import com.atfo.ad.adapt.gdt.initializer.GDTAdSourceInitializer
 import com.atfo.ad.core.ATFOADSDKManager
 import com.atfo.ad.core.ATFOSDKConfig
 import com.atfo.ad.demo.config.DemoConfig
@@ -18,6 +19,7 @@ class AtfoDemoApplication : Application() {
     }
 
     private fun initializeATFOSDK() {
+        registerAdSourceAdapters()
         val sdkConfig = ATFOSDKConfig.Builder()
             .appId(DemoConfig.appId)
             .mediaId(DemoConfig.mediaId)
@@ -30,7 +32,6 @@ class AtfoDemoApplication : Application() {
             // false 时由接入方自行调用 ATFOADSDKManager.getInstance().start()
             .grmAutoStart(true)
             // 透传参数，接入方替换为自己的业务 id
-            .extra(KEY_CUR_ID, CUR_ID)
             .build()
 
         Log.i(TAG, "init SDK with ${DemoConfig.describe()}")
@@ -43,6 +44,13 @@ class AtfoDemoApplication : Application() {
                 Log.e(TAG, "SDK 初始化失败，请检查 appId / secret / mediaId 及网络")
             }
         })
+    }
+
+    /**
+     * 接入三方广告源时在此注册对应 adapter，必须在 SDK init 之前完成。
+     */
+    private fun registerAdSourceAdapters() {
+        GDTAdSourceInitializer.register()
     }
 
     private companion object {
