@@ -9,7 +9,7 @@ material = "1.14.0"
 activityKtx = "1.13.0"
 constraintlayout = "2.2.2"
 atfoCore = "2.9.5"
-atfoAdapt = "2.9.6"
+atfoAdapt = "2.9.5"
 okhttp = "4.9.0"
 glide = "4.11.0"
 
