@@ -4,8 +4,8 @@ ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信�
 
 ## 接入文档
 
-- 非聚合：<https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd>
-- 聚合：<https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg>
+- 非聚合：[docs/非聚合接入指南.md](docs/非聚合接入指南.md)（移植自[飞书原文](https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd)，API 已对照 `com.atfo.ad:core:2.9.5` 核实并修正过期信息）
+- 聚合：[docs/聚合接入指南.md](docs/聚合接入指南.md)（移植自[飞书原文](https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg)，API 已对照 `com.atfo.ad:core:2.9.5` 核实并修正过期信息）
 
 
 ## 1. 注册开户
