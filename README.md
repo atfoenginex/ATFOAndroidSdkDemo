@@ -105,7 +105,6 @@ Demo 默认只依赖 `com.atfo.ad:core`，ATFO 自有广告源开箱即用。SDK
 | 优酷             | `adapt-yk` | `com.atfo.ad.adapt.fanti.initializer.YKAdSourceInitializer` |
 | 汇川（Noah）       | `adapt-noah` | `com.atfo.ad.adapt.noah.initializer.NoahAdSourceInitializer` |
 | Sigmob         | `adapt-sigmob` | `com.atfo.ad.adapt.sigmob.initializer.SigmobAdSourceInitializer` |
-| 泛为             | `adapt-fw` | `com.atfo.ad.adapt.fw.initializer.FWAdSourceInitializer` |
 | 旺脉             | `adapt-wm` | `com.atfo.ad.adapt.wm.initializer.WMAdSourceInitializer` |
 
 三方广告 SDK 本体由 adapter 的 POM 传递引入，不需要单独添加依赖。
