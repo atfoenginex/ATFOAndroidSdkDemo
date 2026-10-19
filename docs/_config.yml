@@ -1,0 +1,11 @@
+# Jekyll 站点配置，用于 GitHub Pages（从 main 分支 /docs 目录部署）
+remote_theme: just-the-docs
+
+title: ATFO OpenAdSDK 接入指南
+description: ATFO Android 广告 SDK 接入文档（非聚合 / 聚合）
+lang: zh-CN
+
+search_enabled: true
+
+aux_links:
+  "GitHub 仓库": "https://github.com/atfoenginex/ATFOAndroidSdkDemo"

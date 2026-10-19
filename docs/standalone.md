@@ -1,6 +1,11 @@
-# ATFOpenAdSDK Android 接入指南（聚合）
+---
+title: 非聚合接入指南
+nav_order: 2
+---
 
-> 本文移植自飞书《【聚合】ATFOpenAdSDK Android 接入指南》（[原文链接](https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg)，2026-10-15 revision 407），全部 API 已对照 `com.atfo.ad:core:2.9.5` 发布构件与 SDK 源码核实，过期信息以本文为准。
+# ATFOpenAdSDK Android 接入指南（非聚合）
+
+> 本文移植自飞书《非聚合使用文档》（[原文链接](https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd)，2026-10-15 revision 344），全部 API 已对照 `com.atfo.ad:core:2.9.5` 发布构件与 SDK 源码核实，过期信息以本文为准。
 
 ## 集成说明
 
@@ -10,7 +15,9 @@
 
 ### 简介
 
-ATFOpenAdSDK 是一款聚合广告 SDK，整合了多家主流广告平台，为开发者提供统一的广告接入接口。通过一次集成，即可接入多个广告平台，提高广告收益和填充率。
+ATFOpenAdSDK 是一款广告 SDK，为开发者提供广告变现能力。
+
+**非聚合模式仅依赖 `com.atfo.ad:core`，ATFO 自有广告源开箱即用，无需任何三方 adapter 依赖**；如需三方广告源或 GroMore 聚合，参见[聚合接入指南](aggregation.md)。
 
 ### 接入提示
 
@@ -39,9 +46,6 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://maven.cxwlad.com/repository/maven-releases/")
         }
-        maven {
-            url = uri("https://artifact.bytedance.com/repository/pangle")
-        }
         google()
         mavenCentral()
     }
@@ -56,32 +60,8 @@ dependencyResolutionManagement {
 dependencies {
     // ATFO 广告核心组件
     implementation("com.atfo.ad:core:2.9.5")
-    // 百度
-    implementation("com.atfo.ad.adapt:adapt-baidu:2.9.5")
-    // 倍孜
-    implementation("com.atfo.ad.adapt:adapt-bz:2.9.5")
-    // 优量汇（广点通）
-    implementation("com.atfo.ad.adapt:adapt-gdt:2.9.5")
-    // GroMore（穿山甲聚合）
-    implementation("com.atfo.ad.adapt:adapt-gromore:2.9.5")
-    // 快手
-    implementation("com.atfo.ad.adapt:adapt-ks:2.9.5")
-    // 美数
-    implementation("com.atfo.ad.adapt:adapt-ms:2.9.5")
-    // 汇川
-    implementation("com.atfo.ad.adapt:adapt-noah:2.9.5")
-    // 趣盟
-    implementation("com.atfo.ad.adapt:adapt-qumeng:2.9.5")
-    // 优酷
-    implementation("com.atfo.ad.adapt:adapt-yk:2.9.5")
-    // Sigmob
-    implementation("com.atfo.ad.adapt:adapt-sigmob:2.9.5")
-    // 旺脉
-    implementation("com.atfo.ad.adapt:adapt-wm:2.9.5")
 }
 ```
-
-三方广告 SDK 本体由 adapter 的 POM 传递引入（以 ATFO 托管在自有 Maven 仓库的二次打包构件形式，如 GroMore 对应 `com.atfo.grm:grm-sdk`），不需要单独添加依赖。
 
 本地 aar 依赖方式引入（本地文件和接入方式，请联系 ATFO 侧）。
 
@@ -109,72 +89,16 @@ dependencies {
 ```kotlin
 import android.app.Application
 import android.util.Log
-import com.atfo.ad.adapt.baidu.initializer.BaiduAdSourceInitializer
-import com.atfo.ad.adapt.bz.initializer.BZAdSourceInitializer
-import com.atfo.ad.adapt.fanti.initializer.YKAdSourceInitializer
-import com.atfo.ad.adapt.gdt.initializer.GDTAdSourceInitializer
-import com.atfo.ad.adapt.gromore.initializer.GRMAdSourceInitializer
-import com.atfo.ad.adapt.ks.initializer.KSAdSourceInitializer
-import com.atfo.ad.adapt.noah.initializer.NoahAdSourceInitializer
-import com.atfo.ad.adapt.qumeng.initializer.QuMengAdSourceInitializer
-import com.atfo.ad.adapt.sigmob.initializer.SigmobAdSourceInitializer
-import com.atfo.ad.adapt.wm.initializer.WMAdSourceInitializer
-// 注意：美数的包名是 com.atfo.ad.adapter（非 adapt）
-import com.atfo.ad.adapter.ms.initializer.MSAdSourceInitializer
 import com.atfo.ad.core.ATFOADSDKManager
 import com.atfo.ad.core.ATFOSDKConfig
 import com.atfo.ad.listener.ATFOAdInitListener
-import com.atfo.ad.source.AdSource
 
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // 注册三方适配器（根据需要选择，只注册已添加依赖的 adapter）
-        registerThirdPartyAdapters()
-
         // 初始化 SDK
         initializeATFOSDK()
-    }
-
-    private fun registerThirdPartyAdapters() {
-        try {
-            // 注册穿山甲适配器
-            GRMAdSourceInitializer.register()
-
-            // 注册广点通适配器
-            GDTAdSourceInitializer.register()
-
-            // 注册百度适配器
-            BaiduAdSourceInitializer.register()
-
-            // 注册快手适配器
-            KSAdSourceInitializer.register()
-
-            // 注册美数适配器
-            MSAdSourceInitializer.register()
-
-            // 注册趣盟适配器
-            QuMengAdSourceInitializer.register()
-
-            // 注册倍孜适配器
-            BZAdSourceInitializer.register()
-
-            // 注册优酷适配器
-            YKAdSourceInitializer.register()
-
-            // 注册汇川适配器
-            NoahAdSourceInitializer.register()
-
-            // 注册 sigmob 适配器
-            SigmobAdSourceInitializer.register()
-
-            // 注册旺脉适配器
-            WMAdSourceInitializer.register()
-
-        } catch (e: Exception) {
-            Log.e("MyApplication", "三方适配器注册失败: ${e.message}")
-        }
     }
 
     private fun initializeATFOSDK() {
@@ -183,10 +107,6 @@ class MyApplication : Application() {
             .mediaId("your_mediaId")                 // 媒体 ID
             .secret("your_secret")                   // 安全密钥
             .appName("应用名称")
-            // 按需禁用广告网络（可选，默认不禁用）
-            // .forbidNetworkList(mutableListOf(AdSource.GDT, AdSource.BAIDU))
-            // GroMore 是否由 SDK 自动调用 start；false 时需要媒体自行调用
-            .grmAutoStart(true)
             .environment(ATFOSDKConfig.Environment.PRODUCTION)  // 环境配置
             .debug(true)                             // 调试模式，开发阶段建议开启
             .build()
@@ -212,8 +132,6 @@ class MyApplication : Application() {
 | `appName` | 应用名称 | — |
 | `environment` | `PRODUCTION` / `STAGING` | `PRODUCTION` |
 | `debug` | 调试日志开关 | `false` |
-| `grmAutoStart` | GroMore 自动 start | `true` |
-| `forbidNetworkList` | 禁用的广告网络列表 | 空 |
 | `extra(key, value)` | 透传参数 | 空 |
 
 ### 环境配置
@@ -271,7 +189,7 @@ class SplashActivity : AppCompatActivity() {
                 // 广告加载成功
                 Log.d("SplashAd", "广告加载成功")
                 Log.d("SplashAd", "广告ID: ${adObject.adId}")
-                // 单位是分，如获取价格方法不存在，请联系运营。
+                // 如获取价格方法不存在，请联系运营
                 Log.d("SplashAd", "价格: ${adObject.price}")
 
                 splashAdObject = adObject
@@ -317,7 +235,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
-                Log.d("SplashAd", "❌ 开屏广告renderfail")
+                Log.d("SplashAd", "❌ 开屏广告renderFail")
             }
 
             override fun onAdExposed() {
@@ -356,6 +274,7 @@ class FeedAdActivity : AppCompatActivity() {
     private fun loadFeedAd() {
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
+            .timeout(8000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
             .activity(this)
             .size(1080, 1080)
@@ -366,7 +285,7 @@ class FeedAdActivity : AppCompatActivity() {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 Log.d("FeedAd", "信息流广告加载成功")
                 Log.d("FeedAd", "广告ID: ${adObject.adId}")
-                // 单位是分，如获取价格方法不存在，请联系运营。
+                // 如获取价格方法不存在，请联系运营
                 Log.d("FeedAd", "价格: ${adObject.price}")
 
                 feedAdObject = adObject
@@ -563,14 +482,11 @@ private fun interactionListener(): AdInteractionListener = object : AdInteractio
 ```kotlin
 class InterstitialAdActivity : AppCompatActivity() {
 
-    private lateinit var adContainer: FrameLayout
     private var interstitialAdObject: ATFOAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_interstitial)
-
-        adContainer = findViewById(R.id.ad_container)
 
         // 加载插屏广告
         loadInterstitialAd()
@@ -590,7 +506,7 @@ class InterstitialAdActivity : AppCompatActivity() {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 Log.d("InterstitialAd", "插屏广告加载成功")
                 Log.d("InterstitialAd", "广告ID: ${adObject.adId}")
-                // 单位是分，如获取价格方法不存在，请联系运营。
+                // 如获取价格方法不存在，请联系运营
                 Log.d("InterstitialAd", "价格: ${adObject.price}")
 
                 interstitialAdObject = adObject
@@ -677,7 +593,7 @@ class RewardAdActivity : AppCompatActivity() {
                 Log.d("RewardAd", "激励视频广告加载成功")
                 Log.d("RewardAd", "广告ID: ${adObject.adId}")
                 Log.d("RewardAd", "广告类型: ${adObject.adType}")
-                // 单位是分，如获取价格方法不存在，请联系运营。
+                // 如获取价格方法不存在，请联系运营
                 Log.d("RewardAd", "价格: ${adObject.price}")
 
                 rewardAdObject = adObject
@@ -700,7 +616,7 @@ class RewardAdActivity : AppCompatActivity() {
             return
         }
 
-        // 激励视频广告为全屏展示，传入当前 Activity 即可
+        // 激励视频广告为全屏展示，无需传入广告容器
         adObject.showAd(this, object : AdInteractionListener {
             override fun onAdShowSuccess() {
                 Log.d("RewardAd", "激励视频广告展示成功")
@@ -838,79 +754,25 @@ class NotifyAdActivity : AppCompatActivity() {
 }
 ```
 
-## 四、竞价回传
+## 四、清理广告缓存
 
-当媒体使用 GroMore、TopOn 等第三方聚合平台，且本 SDK 作为竞价渠道参与竞价时，需通过竞价回传功能向本 SDK 通知竞价结果。
-
-找不到竞价回传方法请联系运营。
-
-参与竞价（Bidding）的广告位，在竞价结束后需要把竞胜/竞败结果回传给 SDK，用于计费和效果归因。
-
-### 1、竞胜回传
-
-```kotlin
-val winPrice = 100
-val secondPrice = 20
-val secondPriceWinner = AdSource.QM // 见广告渠道映射
-val currency = "CNY" // 币种，默认 CNY
-val mBidFeedback = BidFeedback.buildWinFeedback(
-    winPrice = winPrice,
-    secondPrice = secondPrice,
-    secondPriceWinner = secondPriceWinner,
-    currency = currency,
-)
-mATFOAd.sendWinNotification(mBidFeedback)
-```
-
-### 2、竞败回传
-
-```kotlin
-val winPrice = 100
-val lossReason = BidFeedback.LOSS_REASON_LOW_PRICE
-val winner = AdSource.QM // 见广告渠道映射
-val currency = "CNY" // 币种，默认 CNY
-val mBidFeedback = BidFeedback.buildLossFeedback(
-    winPrice = winPrice,
-    lossReason = lossReason,
-    winner = winner,
-    currency = currency,
-)
-adObject.sendLossNotification(mBidFeedback)
-```
-
-### 3、广告渠道映射
-
-| `AdSource` | 广告平台    |
-|------------|---------|
-| `GRM`      | gromore |
-| `GDT`      | 广点通     |
-| `BAIDU`    | 百度      |
-| `KS`       | 快手      |
-| `MS`       | 美数      |
-| `YK`       | 优酷      |
-| `QM`       | 趣盟      |
-| `BZ`       | 倍孜      |
-| `NOAH`     | 汇川      |
-| `SIGMOB`   | sigmob  |
-| `WM`       | 旺脉      |
-
-其他平台，使用字符串 OTHER
-
-## 五、清理广告缓存
+广告加载成功后会缓存在本地，需要主动清理时使用以下方法（`com.atfo.ad.core.ATFOADSDKManager`）。清理方法自 `2.10.0` 起提供。
 
 ### 1、清空全部广告缓存
 
 ```kotlin
-ATFOADSDKManager.getInstance().clearAllCachedAds()
+val clearedCount = ATFOADSDKManager.getInstance().clearAllCachedAds()
 ```
 
 ### 2、按广告位清理缓存
 
 ```kotlin
-ATFOADSDKManager.getInstance().clearCachedAds(slotId)
+val clearedCount = ATFOADSDKManager.getInstance().clearCachedAds(slotId)
 ```
 
-## 六、生命周期管理
+返回值均为本次清理的广告数量。
+
+## 五、生命周期管理
 
 ### 广告对象销毁
 
@@ -934,7 +796,7 @@ override fun onDestroy() {
 loader.cancelLoad()
 ```
 
-## 七、错误处理
+## 六、错误处理
 
 ### 错误码说明
 
@@ -984,9 +846,9 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 }
 ```
 
-## 八、隐私数据获取说明
+## 七、隐私数据获取说明
 
-### 1、聚合 SDK 收集的信息
+### 1、SDK 收集的信息
 
 | 参数 | 说明 |
 |---|---|
@@ -1007,24 +869,7 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 | User Agent | User Agent 信息 |
 | AndroidId | 设备广告标识符 |
 
-### 2、三方广告平台隐私政策
-
-| 第三方平台 | 参考网址 |
-|---|---|
-| 穿山甲 | [开发者个人信息保护合规指引-开发者个人信息保护合规指引-业务规范-穿山甲广告平台](https://www.csjplatform.com/supportcenter/5452) |
-| GroMore 穿山甲融合 | [GroMore隐私合规指南-使用指南-操作指南-GroMore-穿山甲广告平台](https://www.csjplatform.com/supportcenter/5879) |
-| 优量汇 | 隐私说明：<br/>[优量汇 SDK个人信息保护规则](https://e.qq.com/dev/help_detail.html?cid=2005&pid=5983)<br/>合规指南：<br/>https://e.qq.com/dev/help_detail.html?cid=2004&pid=5795 |
-| 快手 | [快手联盟](https://u.kuaishou.com/home/help/detail/1337/1400/1406) |
-| 百度 | [百度联盟](https://union.baidu.com/bqt/#/legal/policies) |
-| 美数 | [美数](https://admate.yuque.com/se0re5/behodv/nbsr012s6fl3vxni) |
-| 倍孜 | http://sdkdoc.beizi.biz/#/zh-cn/guide/UsePrivacy |
-| 汇川 | https://pixiu-ssp.alibaba.com/privacy_agreement.html |
-| 趣盟 | 隐私协议：https://docs.yunxish.com/privacy/common/privacy-agreement.html |
-| Sigmob | — |
-| 优酷 | 隐私政策：https://terms.alicdn.com/legal-agreement/terms/privacy_policy_full/20251124233431381/20251124233431381.html<br/>合规说明：https://terms.alicdn.com/legal-agreement/terms/privacy_other/20251125174230778/20251125174230778.html |
-| 旺脉 | 隐私条款：https://static.adwangmai.com/privacy-MaxMindSDK.html |
-
-## 九、联调排查
+## 八、联调排查
 
 > 为方便联调，SDK 内置了日志导出页面。遇到广告加载、展示异常等问题时，可先导出日志，发给我们研发同学分析定位。
 >
@@ -1036,24 +881,24 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 >
 > 在页面中导出日志后，把日志文件发给对接的研发即可。
 
-## 十、注意事项
+## 九、注意事项
 
 1. **生命周期管理**：在 Activity 销毁时调用 `adObject.destroy()`
 2. **网络权限**：确保添加了网络权限
 3. **调试模式**：开发阶段建议开启 `debug(true)`
-4. **三方 SDK**：如需使用其他广告源，请添加对应 adapter 依赖（三方 SDK 由 adapter 传递引入）并在初始化前注册
+4. **三方 SDK**：非聚合模式仅含 ATFO 自有广告源；如需三方广告源或 GroMore 聚合，参见[聚合接入指南](aggregation.md)
 5. **广告显示**：广告加载成功后需要调用 `showAd()` 方法显示广告
 6. **错误处理**：实现完善的错误处理和重试机制
 7. **内存管理**：及时销毁广告对象，避免内存泄漏
 8. **超时管理**：超时时间以管理后台下发为准（未下发时默认 5000ms），建议不在本地通过 `timeout()` 配置
 
-## 十一、技术支持
+## 十、技术支持
 
 - **技术支持**：support@atfo.com
 - **版本**：2.9.5
 - **最低支持**：Android API 23（Android 6.0）
 
-## 十二、SDK 涉及的三方库版本（若存在不兼容等问题，请联系开发进行定制化修改）
+## 十一、SDK 涉及的三方库版本（若存在不兼容等问题，请联系开发进行定制化修改）
 
 ```toml
 [versions]
