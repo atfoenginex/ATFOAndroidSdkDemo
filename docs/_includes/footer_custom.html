@@ -1,34 +1,29 @@
 {%- comment -%}
   把当前页面的 H2/H3/H4 章节注入左侧导航（ul.page-toc），并随滚动高亮当前章节。
-  主题侧栏本身只有页面级导航，页内目录由这里动态生成；样式见 _sass/custom/custom.scss。
+  注意：主题的 compress_html 会把脚本块内的换行合并掉，这里只能用块注释，
+  不能用行注释（换行合并后行注释会吞掉其后所有代码导致语法错误）。
 {%- endcomment -%}
 <script>
 (function () {
   'use strict';
-
+  /* 找到侧栏中当前页对应的导航项，把正文标题挂到它下面 */
   function buildPageToc() {
     var main = document.querySelector('main');
-    if (!main) return;
-
-    // 找到侧栏中当前页对应的链接：优先主题标记的 .active，否则按路径匹配
+    if (!main) { return; }
     var activeLink = document.querySelector('a.nav-list-link.active');
     if (!activeLink) {
       var path = location.pathname;
-      Array.prototype.forEach.call(
-        document.querySelectorAll('a.nav-list-link'),
-        function (a) { if (!activeLink && a.pathname === path) activeLink = a; }
-      );
+      Array.prototype.forEach.call(document.querySelectorAll('a.nav-list-link'), function (a) {
+        if (!activeLink && a.pathname === path) { activeLink = a; }
+      });
     }
-    if (!activeLink) return;
-
+    if (!activeLink) { return; }
     var headings = main.querySelectorAll('h2[id], h3[id], h4[id]');
-    if (!headings.length) return;
-
+    if (!headings.length) { return; }
     var ul = document.createElement('ul');
     ul.className = 'page-toc';
-
     Array.prototype.forEach.call(headings, function (h) {
-      if (h.id === '目录') return; // 站点上目录固定在侧栏，正文顶部目录块已用 CSS 隐藏
+      if (h.id === '目录') { return; } /* 正文顶部目录块在站点上已由 CSS 隐藏 */
       var li = document.createElement('li');
       li.className = 'toc-' + h.tagName.toLowerCase();
       var a = document.createElement('a');
@@ -37,25 +32,22 @@
       li.appendChild(a);
       ul.appendChild(li);
     });
-
     activeLink.closest('li.nav-list-item').appendChild(ul);
-
-    // 滚动高亮：进入视口上部的章节标记为当前项
-    if (!('IntersectionObserver' in window)) return;
+    /* 滚动高亮：进入视口上部的章节标记为当前项 */
+    if (!('IntersectionObserver' in window)) { return; }
     var links = {};
     ul.querySelectorAll('a').forEach(function (a) { links[a.hash.slice(1)] = a; });
     var current = null;
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        if (current) current.classList.remove('active');
+        if (!entry.isIntersecting) { return; }
+        if (current) { current.classList.remove('active'); }
         current = links[entry.target.id];
-        if (current) current.classList.add('active');
+        if (current) { current.classList.add('active'); }
       });
     }, { rootMargin: '-15% 0px -70% 0px' });
     Array.prototype.forEach.call(headings, function (h) { observer.observe(h); });
   }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', buildPageToc);
   } else {
