@@ -1,5 +1,11 @@
 # Jekyll 站点配置，用于 GitHub Pages（从 main 分支 /docs 目录部署）
-remote_theme: just-the-docs
+# remote_theme 必须是「作者/仓库」全名：jekyll-remote-theme 认定单段裸名无效，
+# 只写 just-the-docs 会导致主题不加载、回退 GitHub 默认样式（无侧栏、无搜索）。
+remote_theme: just-the-docs/just-the-docs
+
+# 显式声明远程主题插件（GitHub Pages 白名单会自动启用，写明更稳妥）
+plugins:
+  - jekyll-remote-theme
 
 title: ATFO OpenAdSDK 接入指南
 description: ATFO Android 广告 SDK 接入文档（非聚合 / 聚合）
