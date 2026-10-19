@@ -5,8 +5,6 @@ nav_order: 3
 
 # ATFOpenAdSDK Android 接入指南（聚合）
 
-> 本文移植自飞书《【聚合】ATFOpenAdSDK Android 接入指南》（[原文链接](https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg)，2026-10-15 revision 407），全部 API 已对照 `com.atfo.ad:core:2.9.5` 发布构件与 SDK 源码核实，过期信息以本文为准。
-
 ## 目录
 
 - [集成说明](#集成说明)
@@ -310,7 +308,7 @@ class SplashActivity : AppCompatActivity() {
             .adType(AdType.SPLASH)
             .timeout(5000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)                   // 当前 Activity
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(1080, 1920)
             .build()
 
@@ -404,7 +402,7 @@ class FeedAdActivity : AppCompatActivity() {
     private fun loadFeedAd() {
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .activity(this)
             .size(1080, 1080)
             .extras(mapOf("scene" to "feed_list"))
@@ -629,7 +627,7 @@ class InterstitialAdActivity : AppCompatActivity() {
             .adType(AdType.INTERSTITIAL)
             .timeout(10000)                   // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(1080, 1920)
             .extras(mapOf("scene" to "interstitial"))
             .build()
@@ -715,7 +713,7 @@ class RewardAdActivity : AppCompatActivity() {
             .adType(AdType.REWARD)
             .timeout(10000)                   // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(720, 1280)
             .extras(mapOf("scene" to "reward"))
             .build()
@@ -819,7 +817,7 @@ class NotifyAdActivity : AppCompatActivity() {
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
             .timeout(8000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .activity(this)
             .size(1000, 1000)
             .extras(mapOf("scene" to "notify_ad"))

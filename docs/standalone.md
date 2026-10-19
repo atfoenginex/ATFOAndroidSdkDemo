@@ -5,8 +5,6 @@ nav_order: 2
 
 # ATFOpenAdSDK Android 接入指南（非聚合）
 
-> 本文移植自飞书《非聚合使用文档》（[原文链接](https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd)，2026-10-15 revision 344），全部 API 已对照 `com.atfo.ad:core:2.9.5` 发布构件与 SDK 源码核实，过期信息以本文为准。
-
 ## 目录
 
 - [集成说明](#集成说明)
@@ -30,20 +28,24 @@ nav_order: 2
   - [插屏广告](#插屏广告)
   - [激励视频广告](#激励视频广告)
   - [通知广告](#通知广告)
-- [四、清理广告缓存](#四清理广告缓存)
+- [四、竞价回传](#四竞价回传)
+  - [1、竞胜回传](#1竞胜回传)
+  - [2、竞败回传](#2竞败回传)
+  - [3、广告渠道映射](#3广告渠道映射)
+- [五、清理广告缓存](#五清理广告缓存)
   - [1、清空全部广告缓存](#1清空全部广告缓存)
   - [2、按广告位清理缓存](#2按广告位清理缓存)
-- [五、生命周期管理](#五生命周期管理)
+- [六、生命周期管理](#六生命周期管理)
   - [广告对象销毁](#广告对象销毁)
   - [取消正在加载的广告](#取消正在加载的广告)
-- [六、错误处理](#六错误处理)
+- [七、错误处理](#七错误处理)
   - [错误码说明](#错误码说明)
-- [七、隐私数据获取说明](#七隐私数据获取说明)
+- [八、隐私数据获取说明](#八隐私数据获取说明)
   - [1、SDK 收集的信息](#1sdk-收集的信息)
-- [八、联调排查](#八联调排查)
-- [九、注意事项](#九注意事项)
-- [十、技术支持](#十技术支持)
-- [十一、SDK 涉及的三方库版本](#十一sdk-涉及的三方库版本若存在不兼容等问题请联系开发进行定制化修改)
+- [九、联调排查](#九联调排查)
+- [十、注意事项](#十注意事项)
+- [十一、技术支持](#十一技术支持)
+- [十二、SDK 涉及的三方库版本](#十二sdk-涉及的三方库版本若存在不兼容等问题请联系开发进行定制化修改)
 
 ## 集成说明
 
@@ -218,7 +220,7 @@ class SplashActivity : AppCompatActivity() {
             .adType(AdType.SPLASH)
             .timeout(5000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)                   // 当前 Activity
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(1080, 1920)
             .build()
 
@@ -313,7 +315,7 @@ class FeedAdActivity : AppCompatActivity() {
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
             .timeout(8000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .activity(this)
             .size(1080, 1080)
             .extras(mapOf("scene" to "feed_list"))
@@ -535,7 +537,7 @@ class InterstitialAdActivity : AppCompatActivity() {
             .adType(AdType.INTERSTITIAL)
             .timeout(10000)                   // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(1080, 1920)
             .extras(mapOf("scene" to "interstitial"))
             .build()
@@ -621,7 +623,7 @@ class RewardAdActivity : AppCompatActivity() {
             .adType(AdType.REWARD)
             .timeout(10000)                   // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
             .activity(this)
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .size(720, 1280)
             .extras(mapOf("scene" to "reward"))
             .build()
@@ -725,7 +727,7 @@ class NotifyAdActivity : AppCompatActivity() {
         val adSlot = ATFOAdSlot.Builder()
             .adType(AdType.FEED)
             .timeout(8000)                    // 可选；超时以管理后台下发为准，建议不配置（见「注意事项」）
-            .slotId("") // 详情参见：https://ulogtm3c7z.feishu.cn/docx/Sg1fdvx7Zov9adxonslc8oGVnve的代码位Id
+            .slotId("") // 代码位 Id（向对接运营获取）
             .activity(this)
             .size(1000, 1000)
             .extras(mapOf("scene" to "notify_ad"))
@@ -792,7 +794,65 @@ class NotifyAdActivity : AppCompatActivity() {
 }
 ```
 
-## 四、清理广告缓存
+## 四、竞价回传
+
+当媒体使用 GroMore、TopOn 等第三方聚合平台，且本 SDK 作为竞价渠道参与竞价时，需通过竞价回传功能向本 SDK 通知竞价结果。
+
+找不到竞价回传方法请联系运营。
+
+参与竞价（Bidding）的广告位，在竞价结束后需要把竞胜/竞败结果回传给 SDK，用于计费和效果归因。
+
+### 1、竞胜回传
+
+```kotlin
+val winPrice = 100
+val secondPrice = 20
+val secondPriceWinner = AdSource.QM // 见广告渠道映射
+val currency = "CNY" // 币种，默认 CNY
+val mBidFeedback = BidFeedback.buildWinFeedback(
+    winPrice = winPrice,
+    secondPrice = secondPrice,
+    secondPriceWinner = secondPriceWinner,
+    currency = currency,
+)
+mATFOAd.sendWinNotification(mBidFeedback)
+```
+
+### 2、竞败回传
+
+```kotlin
+val winPrice = 100
+val lossReason = BidFeedback.LOSS_REASON_LOW_PRICE
+val winner = AdSource.QM // 见广告渠道映射
+val currency = "CNY" // 币种，默认 CNY
+val mBidFeedback = BidFeedback.buildLossFeedback(
+    winPrice = winPrice,
+    lossReason = lossReason,
+    winner = winner,
+    currency = currency,
+)
+adObject.sendLossNotification(mBidFeedback)
+```
+
+### 3、广告渠道映射
+
+| `AdSource` | 广告平台    |
+|------------|---------|
+| `GRM`      | gromore |
+| `GDT`      | 广点通     |
+| `BAIDU`    | 百度      |
+| `KS`       | 快手      |
+| `MS`       | 美数      |
+| `YK`       | 优酷      |
+| `QM`       | 趣盟      |
+| `BZ`       | 倍孜      |
+| `NOAH`     | 汇川      |
+| `SIGMOB`   | sigmob  |
+| `WM`       | 旺脉      |
+
+其他平台，使用字符串 OTHER
+
+## 五、清理广告缓存
 
 广告加载成功后会缓存在本地，需要主动清理时使用以下方法（`com.atfo.ad.core.ATFOADSDKManager`）。清理方法自 `2.10.0` 起提供。
 
@@ -810,7 +870,7 @@ val clearedCount = ATFOADSDKManager.getInstance().clearCachedAds(slotId)
 
 返回值均为本次清理的广告数量。
 
-## 五、生命周期管理
+## 六、生命周期管理
 
 ### 广告对象销毁
 
@@ -834,7 +894,7 @@ override fun onDestroy() {
 loader.cancelLoad()
 ```
 
-## 六、错误处理
+## 七、错误处理
 
 ### 错误码说明
 
@@ -884,7 +944,7 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 }
 ```
 
-## 七、隐私数据获取说明
+## 八、隐私数据获取说明
 
 ### 1、SDK 收集的信息
 
@@ -907,7 +967,7 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 | User Agent | User Agent 信息 |
 | AndroidId | 设备广告标识符 |
 
-## 八、联调排查
+## 九、联调排查
 
 > 为方便联调，SDK 内置了日志导出页面。遇到广告加载、展示异常等问题时，可先导出日志，发给我们研发同学分析定位。
 >
@@ -919,7 +979,7 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 >
 > 在页面中导出日志后，把日志文件发给对接的研发即可。
 
-## 九、注意事项
+## 十、注意事项
 
 1. **生命周期管理**：在 Activity 销毁时调用 `adObject.destroy()`
 2. **网络权限**：确保添加了网络权限
@@ -930,13 +990,13 @@ override fun onAdLoadFailed(error: ATFOAdError) {
 7. **内存管理**：及时销毁广告对象，避免内存泄漏
 8. **超时管理**：超时时间以管理后台下发为准（未下发时默认 5000ms），建议不在本地通过 `timeout()` 配置
 
-## 十、技术支持
+## 十一、技术支持
 
 - **技术支持**：support@atfo.com
 - **版本**：2.9.5
 - **最低支持**：Android API 23（Android 6.0）
 
-## 十一、SDK 涉及的三方库版本（若存在不兼容等问题，请联系开发进行定制化修改）
+## 十二、SDK 涉及的三方库版本（若存在不兼容等问题，请联系开发进行定制化修改）
 
 ```toml
 [versions]
