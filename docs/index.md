@@ -17,7 +17,7 @@ ATFO OpenAdSDK（`com.atfo.ad:core`）是 Android 广告变现 SDK，覆盖**开
 
 ## 示例 Demo
 
-仓库 [atfoenginex/ATFOAndroidSdkDemo](https://github.com/atfoenginex/ATFOAndroidSdkDemo) 提供了完整可运行工程，主页六个按钮各对应一个接入示例，每个示例是一个独立 Activity（配套同名布局），可直接整文件复制到自己的工程：
+仓库 [atfoenginex/ATFOpenAndroidSdkDemo](https://github.com/atfoenginex/ATFOpenAndroidSdkDemo) 提供了完整可运行工程，主页六个按钮各对应一个接入示例，每个示例是一个独立 Activity（配套同名布局），可直接整文件复制到自己的工程：
 
 - 开屏 · 信息流（模板渲染）· 信息流（宿主自渲染）· 插屏 · 激励视频 · 通知广告
 

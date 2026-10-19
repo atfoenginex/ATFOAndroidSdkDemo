@@ -1,4 +1,4 @@
-# ATFOAndroidSdkDemo
+# ATFOpenAndroidSdkDemo
 
 ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（模板渲染 / 宿主自渲染两页）、插屏、激励视频、通知广告五类，共六个页面。
 
@@ -13,7 +13,7 @@ ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信�
 
 ## 接入文档
 
-📖 **在线文档**（GitHub Pages，左侧导航 + 搜索）：https://atfoenginex.github.io/ATFOAndroidSdkDemo/
+📖 **在线文档**（GitHub Pages，左侧导航 + 搜索）：https://atfoenginex.github.io/ATFOpenAndroidSdkDemo/
 
 - 非聚合：[docs/standalone.md](docs/standalone.md)（移植自[飞书原文](https://ulogtm3c7z.feishu.cn/docx/Q0VOd7DE9oWMTBx60hicrd7Lnpd)，API 已对照 `com.atfo.ad:core:2.9.5` 核实并修正过期信息）
 - 聚合：[docs/aggregation.md](docs/aggregation.md)（移植自[飞书原文](https://ulogtm3c7z.feishu.cn/docx/CdAhdFq2Do8Nz4xPdfHcois6nhg)，API 已对照 `com.atfo.ad:core:2.9.5` 核实并修正过期信息）
