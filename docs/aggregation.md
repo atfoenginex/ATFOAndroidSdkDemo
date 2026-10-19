@@ -940,7 +940,7 @@ adObject.sendLossNotification(mBidFeedback)
 | `SIGMOB`   | sigmob  |
 | `WM`       | 旺脉      |
 
-其他平台，使用字符串 OTHER
+其他平台，使用 null
 
 ## 五、清理广告缓存
 
