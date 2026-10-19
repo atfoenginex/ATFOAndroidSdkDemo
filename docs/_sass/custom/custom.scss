@@ -1,0 +1,50 @@
+// 左侧栏页内章节目录（由 _includes/footer_custom.html 注入的 ul.page-toc）
+ul.page-toc {
+  margin: 0.25rem 0 0.75rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+    list-style: none;
+  }
+
+  a {
+    display: block;
+    padding: 2px 1rem 2px 2rem;
+    font-size: 12px;
+    line-height: 1.5;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: var(--link-color, #7253ed);
+      font-weight: 600;
+    }
+  }
+
+  li.toc-h3 a {
+    padding-left: 2.75rem;
+  }
+
+  li.toc-h4 a {
+    padding-left: 3.5rem;
+  }
+}
+
+// 目录较长，确保桌面端侧栏导航区可滚动
+@media (min-width: 50rem) {
+  .side-bar .site-nav {
+    overflow-y: auto;
+  }
+}
+
+// 正文顶部的手写目录块在站点上隐藏（GitHub 上仍保留，侧栏已固定同一份目录）
+#目录,
+#目录 + ul {
+  display: none;
+}
