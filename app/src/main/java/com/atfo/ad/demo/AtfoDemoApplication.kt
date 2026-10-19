@@ -3,6 +3,7 @@ package com.atfo.ad.demo
 import android.app.Application
 import android.util.Log
 import com.atfo.ad.adapt.gdt.initializer.GDTAdSourceInitializer
+import com.atfo.ad.adapt.gromore.initializer.GRMAdSourceInitializer
 import com.atfo.ad.core.ATFOADSDKManager
 import com.atfo.ad.core.ATFOSDKConfig
 import com.atfo.ad.demo.config.DemoConfig
@@ -50,6 +51,9 @@ class AtfoDemoApplication : Application() {
      * 接入三方广告源时在此注册对应 adapter，必须在 SDK init 之前完成。
      */
     private fun registerAdSourceAdapters() {
+        // GroMore（穿山甲聚合）
+        GRMAdSourceInitializer.register()
+        // 优量汇（广点通）
         GDTAdSourceInitializer.register()
     }
 

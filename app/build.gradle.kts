@@ -84,4 +84,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     implementation(libs.atfo.adapt.gdt)
+    implementation(libs.atfo.adapt.gromore)
 }
