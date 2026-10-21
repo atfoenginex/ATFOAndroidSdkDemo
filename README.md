@@ -2,6 +2,10 @@
 
 ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（模板渲染 / 宿主自渲染两页）、插屏、激励视频、通知广告五类，共六个页面。
 
+<!-- SDK-VERSION:START -->
+**SDK 最新版本**：`2.10.0`（Maven 仓库最新版本，由 CI 自动同步）
+<!-- SDK-VERSION:END -->
+
 ## 目录
 
 - [接入文档](#接入文档)
@@ -119,7 +123,7 @@ Demo 默认只依赖 `com.atfo.ad:core`，ATFO 自有广告源开箱即用。SDK
 以接入优量汇为例，`app/build.gradle.kts` 追加依赖：
 
 ```kotlin
-implementation("com.atfo.ad.adapt:adapt-gdt:2.9.4")
+implementation("com.atfo.ad.adapt:adapt-gdt:2.10.0")
 ```
 
 然后在 `Application#onCreate` 里、SDK `init` 之前导入并注册：
