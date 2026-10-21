@@ -23,7 +23,8 @@ METADATA_URL = (
 START, END = "<!-- SDK-VERSION:START -->", "<!-- SDK-VERSION:END -->"
 
 VERSION_LINE = (
-    "**SDK 最新版本**：`{version}`（Maven 仓库最新版本，由 CI 自动同步）"
+    "**SDK 最新版本**：`{version}`\n\n"
+    '<font color="red">⚠️ 版本号最新不代表合入我们最新的功能，使用版本号前请联系我们的商务。</font>'
 )
 
 
