@@ -48,3 +48,93 @@ ul.page-toc {
 #目录 + ul {
   display: none;
 }
+
+// ==== 全局字体与阅读风格 ====
+// 目标：不动主题结构，只调字体栈、行高、代码块、表格和强调色。
+// 强调色统一为 README 徽章的 #1677FF（替换主题默认紫 #7253ed）。
+
+:root {
+  // 正文走系统字体栈（中文回退苹方 / 鸿蒙 / 雅黑），不外链 webfont，境内访问零阻塞
+  --bs-body-font-family: system-ui, -apple-system, "Segoe UI",
+    "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC",
+    sans-serif;
+  // 代码等宽栈；中文注释回退跟随正文，避免标点半角全角混排错位
+  --bs-font-monospace: "SF Mono", Menlo, Consolas, "Liberation Mono",
+    "PingFang SC", "Microsoft YaHei", monospace;
+  // 中文正文行高比主题默认更松，长段落阅读更省力
+  --bs-body-line-height: 1.78;
+  // 链接强调色（page-toc 的高亮也引用同一变量，自动跟随）
+  --link-color: #1677ff;
+  --link-color-hover: #0958d9;
+
+  // 亮暗两套共用的叠层色 token
+  --atfo-inline-code-bg: rgba(22, 119, 255, 0.07);
+  --atfo-zebra-bg: rgba(0, 0, 0, 0.02);
+  --atfo-border: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --atfo-inline-code-bg: rgba(255, 255, 255, 0.09);
+  --atfo-zebra-bg: rgba(255, 255, 255, 0.045);
+  --atfo-border: rgba(255, 255, 255, 0.16);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-overflow: clip;
+}
+
+.main-content {
+  // 标题：微收字距 + 收紧行高，章节标题更「标题相」
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  // 行内代码：浅蓝底圆角，比默认灰底与正文过渡更柔和
+  code {
+    background: var(--atfo-inline-code-bg);
+    border: none;
+    border-radius: 5px;
+    padding: 0.15em 0.4em;
+    font-size: 87%;
+  }
+
+  // 代码块：加大圆角与内边距，行高稍紧（代码行密度高于正文）
+  .highlight {
+    border-radius: 10px;
+  }
+
+  pre.highlight,
+  figure.highlight pre,
+  .literal-block pre {
+    padding: 0.9rem 1.1rem;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  // 表格：隔行浅底 + 柔和边框，表头加重
+  th, td {
+    border-color: var(--atfo-border);
+  }
+
+  th {
+    font-weight: 600;
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--atfo-zebra-bg);
+  }
+
+  // 引用块：左侧强调色竖线，替代默认灰线
+  blockquote {
+    border-left: 3px solid var(--link-color);
+    padding: 0.1rem 1.1rem;
+    opacity: 0.88;
+  }
+
+  // 长串代码位 Id 等无空格内容允许断行，不撑破移动端布局
+  p, li {
+    overflow-wrap: break-word;
+  }
+}
