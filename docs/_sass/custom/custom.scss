@@ -138,3 +138,17 @@ body {
     overflow-wrap: break-word;
   }
 }
+
+// 主题浅色方案对 a 标签硬编码了紫色（不走 --link-color），这里显式覆盖
+a {
+  color: var(--link-color);
+
+  &:hover,
+  &:visited {
+    color: var(--link-color);
+  }
+
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
