@@ -153,14 +153,22 @@ a {
   }
 }
 
-// 主题对 body 行高硬编码 1.6，中文长段落偏紧，直接覆盖
+// 主题对 body 的字体栈与行高全部硬编码（不消费 :root 变量），必须同级覆盖
 body {
+  font-family: system-ui, -apple-system, "Segoe UI",
+    "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC",
+    sans-serif;
   line-height: 1.78;
 }
 
-// 侧栏激活项与搜索框聚焦色同样是硬编码紫，统一到品牌蓝
-.nav-list-link.active {
+// 侧栏激活项：主题选择器为 .nav-list .nav-list-item .nav-list-link.active（特异性更高），
+// 这里用同链选择器覆盖，悬停与激活统一到品牌蓝
+.nav-list .nav-list-item .nav-list-link:hover,
+.nav-list .nav-list-item .nav-list-link.active {
   color: var(--link-color);
+}
+
+.nav-list .nav-list-item .nav-list-link.active {
   font-weight: 600;
 }
 
