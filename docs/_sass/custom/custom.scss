@@ -152,3 +152,18 @@ a {
     color: var(--link-color-hover);
   }
 }
+
+// 主题对 body 行高硬编码 1.6，中文长段落偏紧，直接覆盖
+body {
+  line-height: 1.78;
+}
+
+// 侧栏激活项与搜索框聚焦色同样是硬编码紫，统一到品牌蓝
+.nav-list-link.active {
+  color: var(--link-color);
+  font-weight: 600;
+}
+
+.search-input:focus {
+  border-color: var(--link-color);
+}
