@@ -161,6 +161,11 @@ body {
   line-height: 1.78;
 }
 
+// 行高真正生效的位置在 .main-content（主题硬编码 1.6），与 body 同步覆盖
+.main-content {
+  line-height: 1.78;
+}
+
 // 侧栏激活项：主题选择器为 .nav-list .nav-list-item .nav-list-link.active（特异性更高），
 // 这里用同链选择器覆盖，悬停与激活统一到品牌蓝
 .nav-list .nav-list-item .nav-list-link:hover,
