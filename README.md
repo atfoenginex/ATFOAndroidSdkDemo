@@ -3,7 +3,7 @@
 ATFO OpenAdSDK（`com.atfo.ad:core`）Android 接入示例，覆盖开屏、信息流（模板渲染 / 宿主自渲染两页）、插屏、激励视频、通知广告五类，共六个页面。
 
 <!-- SDK-VERSION:START -->
-**SDK 最新版本**：`2.10.0`
+![SDK 最新版本](https://img.shields.io/badge/SDK%20最新版本-2.10.0-1677FF?logo=android&logoColor=white&style=for-the-badge)
 
 <font color="red">⚠️ 版本号最新不代表合入我们最新的功能，使用版本号前请联系我们的商务。</font>
 <!-- SDK-VERSION:END -->

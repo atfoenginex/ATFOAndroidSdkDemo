@@ -23,7 +23,9 @@ METADATA_URL = (
 START, END = "<!-- SDK-VERSION:START -->", "<!-- SDK-VERSION:END -->"
 
 VERSION_LINE = (
-    "**SDK 最新版本**：`{version}`\n\n"
+    "![SDK 最新版本]"
+    "(https://img.shields.io/badge/SDK%20最新版本-{version}-1677FF"
+    "?logo=android&logoColor=white&style=for-the-badge)\n\n"
     '<font color="red">⚠️ 版本号最新不代表合入我们最新的功能，使用版本号前请联系我们的商务。</font>'
 )
 
