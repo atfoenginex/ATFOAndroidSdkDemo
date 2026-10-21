@@ -11,8 +11,8 @@ ul.page-toc {
 
   a {
     display: block;
-    padding: 2px 1rem 2px 2rem;
-    font-size: 12px;
+    padding: 3px 1rem 3px 2rem;
+    font-size: 13px;
     line-height: 1.5;
     color: inherit;
     text-decoration: none;
@@ -175,6 +175,13 @@ body {
 
 .nav-list .nav-list-item .nav-list-link.active {
   font-weight: 600;
+}
+
+// 侧栏导航主题硬编码 12px，中文偏小；调大一档，页内目录保持小一号的层级差
+.nav-list-link,
+.nav-list-expander,
+.nav-category {
+  font-size: 14px;
 }
 
 .search-input:focus {
