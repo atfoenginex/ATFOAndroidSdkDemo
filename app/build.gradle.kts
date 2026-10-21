@@ -80,6 +80,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+    // 设置页持久化「当前选择的代码位」用；SDK 传递依赖的是 mmkv-static，保持同一变体避免 libmmkv.so 冲突
+    implementation(libs.mmkv.static)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

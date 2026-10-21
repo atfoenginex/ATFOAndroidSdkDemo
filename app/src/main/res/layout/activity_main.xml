@@ -178,6 +178,26 @@
 
                 <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
             </LinearLayout>
+
+            <View style="@style/Widget.AtfoDemo.EntryRowDivider" />
+
+            <LinearLayout
+                android:id="@+id/row_settings"
+                style="@style/Widget.AtfoDemo.EntryRow">
+
+                <LinearLayout style="@style/Widget.AtfoDemo.EntryRowText">
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowTitle"
+                        android:text="设置" />
+
+                    <TextView
+                        style="@style/Widget.AtfoDemo.EntryRowDesc"
+                        android:text="接入参数、SDK Debug 面板、切换代码位" />
+                </LinearLayout>
+
+                <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

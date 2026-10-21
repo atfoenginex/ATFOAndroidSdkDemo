@@ -13,6 +13,7 @@ import com.atfo.ad.demo.interstitial.InterstitialAdActivity
 import com.atfo.ad.demo.notify.NotifyAdActivity
 import com.atfo.ad.demo.reward.RewardAdActivity
 import com.atfo.ad.demo.splash.SplashAdActivity
+import com.atfo.ad.demo.settings.SettingsActivity
 import com.atfo.ad.demo.utils.applySystemBarPadding
 import com.atfo.ad.demo.utils.lightStatusBar
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         launch(binding.rowInterstitial, InterstitialAdActivity::class.java)
         launch(binding.rowReward, RewardAdActivity::class.java)
         launch(binding.rowNotify, NotifyAdActivity::class.java)
+        launch(binding.rowSettings, SettingsActivity::class.java)
     }
 
     override fun onResume() {

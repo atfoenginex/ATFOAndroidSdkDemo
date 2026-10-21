@@ -12,6 +12,7 @@ atfoCore = "2.10.0"
 atfoAdapt = "2.10.0"
 okhttp = "4.9.0"
 glide = "4.11.0"
+mmkv = "1.2.14"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,7 @@ atfo-adapt-gdt = { group = "com.atfo.ad.adapt", name = "adapt-gdt", version.ref 
 atfo-adapt-gromore = { group = "com.atfo.ad.adapt", name = "adapt-gromore", version.ref = "atfoAdapt" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+mmkv-static = { group = "com.tencent", name = "mmkv-static", version.ref = "mmkv" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

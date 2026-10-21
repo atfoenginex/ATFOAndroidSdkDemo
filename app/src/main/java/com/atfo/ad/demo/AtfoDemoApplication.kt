@@ -8,6 +8,7 @@ import com.atfo.ad.core.ATFOADSDKManager
 import com.atfo.ad.core.ATFOSDKConfig
 import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.listener.ATFOAdInitListener
+import com.tencent.mmkv.MMKV
 
 /**
  * SDK 在 Application 中初始化，接入第三方广告源时在此之前注册对应 adapter。
@@ -16,6 +17,8 @@ class AtfoDemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // 设置页的代码位选择用 MMKV 持久化，SDK 内部也会初始化 MMKV，先初始化保证顺序在前
+        MMKV.initialize(this)
         initializeATFOSDK()
     }
 
