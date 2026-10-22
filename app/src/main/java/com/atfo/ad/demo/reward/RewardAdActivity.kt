@@ -9,7 +9,6 @@ import com.atfo.ad.demo.databinding.ActivityRewardAdBinding
 import com.atfo.ad.demo.utils.AdPriceUtils
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.lightStatusBar
-import com.atfo.ad.demo.utils.logAndToast
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
 import com.atfo.ad.model.ATFOAd
@@ -19,7 +18,7 @@ import com.atfo.ad.model.AdType
 /**
  * 激励视频：全屏展示，达标回调 [com.atfo.ad.listener.AdInteractionListener.onReward]，业务在此发奖。
  * 进页面不自动加载，点「加载广告」才发起请求，加载成功后点「展示广告」。
- * 本页只负责展示与回调，每个回调都打日志并弹 Toast，不做任何跳转。
+ * 本页只负责展示与回调，每个回调都打日志并追加到页面底部的 ConsoleView，不做任何跳转。
  */
 class RewardAdActivity : AppCompatActivity() {
 
@@ -56,13 +55,13 @@ class RewardAdActivity : AppCompatActivity() {
         adLoader.loadAd(adSlot, object : ATFOAdLoader.AdLoadListener {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 val msg = "激励视频加载成功, adId=${adObject.adId}, price=${AdPriceUtils.getPrice(adObject)}"
-                logAndToast(msg)
+                logToConsole(msg)
                 rewardAdObject = adObject
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
                 val msg = "激励视频加载失败, code=${error.code}, message=${error.message}"
-                logAndToast(msg, Log.ERROR)
+                logToConsole(msg, Log.ERROR)
             }
         })
     }
@@ -71,51 +70,56 @@ class RewardAdActivity : AppCompatActivity() {
         val adObject = rewardAdObject
         if (adObject == null) {
             val msg = "尚未加载到广告，请先点击「加载广告」"
-            logAndToast(msg, Log.WARN)
+            logToConsole(msg, Log.WARN)
             return
         }
         if (!adObject.isValid()) {
             val msg = "激励视频已失效，请重新加载"
-            logAndToast(msg, Log.WARN)
+            logToConsole(msg, Log.WARN)
             return
         }
         adObject.showAd(this@RewardAdActivity, object : AdInteractionListener {
             override fun onAdShowSuccess() {
                 val msg = "激励视频展示成功"
-                logAndToast(msg)
+                logToConsole(msg)
             }
 
             override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
                 val msg = "激励视频展示失败, code=$errorCode, message=$errorMessage"
-                logAndToast(msg, Log.ERROR)
+                logToConsole(msg, Log.ERROR)
             }
 
             override fun onAdClicked() {
                 val msg = "激励视频被点击"
-                logAndToast(msg)
+                logToConsole(msg)
             }
 
             override fun onAdClosed() {
                 val msg = "激励视频被关闭"
-                logAndToast(msg)
+                logToConsole(msg)
             }
 
             override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
                 val msg = "激励视频渲染失败, code=$errorCode, message=$errorMessage"
-                logAndToast(msg, Log.ERROR)
+                logToConsole(msg, Log.ERROR)
             }
 
             override fun onAdExposed() {
                 val msg = "激励视频曝光"
-                logAndToast(msg)
+                logToConsole(msg)
             }
 
             override fun onReward() {
                 // 达标回调即发奖时机，真实业务在这里发放奖励
                 val msg = "激励视频达标，发放奖励"
-                logAndToast(msg)
+                logToConsole(msg)
             }
         })
+    }
+
+    /** 打日志并追加到 ConsoleView（各回调统一走这里）；线程切换、格式化、清空都由 ConsoleView 负责。 */
+    private fun logToConsole(msg: String, priority: Int = Log.DEBUG) {
+        binding.consoleView.log(msg, priority, "ATFO${this::class.java.simpleName}")
     }
 
     /** 释放当前广告对象；重新加载前与 onDestroy 调用。 */

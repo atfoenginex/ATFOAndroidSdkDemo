@@ -7,7 +7,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateMargins
 import com.atfo.ad.demo.R
 import com.atfo.ad.demo.databinding.ViewConsoleBinding
 import java.text.SimpleDateFormat
@@ -80,10 +84,31 @@ class ConsoleView @JvmOverloads constructor(
         else -> "[I]"
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        attachNavigationBarAvoidance()
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         // 移除在途的日志写入，避免持有已离开屏幕的视图
         mainHandler.removeCallbacksAndMessages(null)
+    }
+
+    /**
+     * 底部自动避开导航栏：把 navigationBars 的 bottom 高度叠加到自身 bottomMargin。
+     * Console 永远贴底，避让逻辑收在自己身上，承载方布局零改动；
+     * layoutParams 在构造期还是 null（XML 属性尚未回填），所以挂到 attach 时机做。
+     */
+    private fun attachNavigationBarAvoidance() {
+        val baseMarginBottom = (layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
+        ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+            val navBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            (view.layoutParams as? ViewGroup.MarginLayoutParams)
+                ?.updateMargins(bottom = baseMarginBottom + navBottom)
+            insets
+        }
+        ViewCompat.requestApplyInsets(this)
     }
 
     private companion object {

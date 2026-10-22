@@ -13,6 +13,9 @@
     <color name="page_bg">#F5F6F8</color>
     <color name="divider">#EEF0F2</color>
 
+    <!-- 广告容器黄色底：各容器型广告页共用，肉眼确认容器实际边界与占位 -->
+    <color name="ad_container_bg">#F7C948</color>
+
     <!-- 调试 Console（ConsoleView）：终端风深色卡片 -->
     <color name="console_bg">#1B1B1F</color>
     <color name="console_text">#EDEDED</color>

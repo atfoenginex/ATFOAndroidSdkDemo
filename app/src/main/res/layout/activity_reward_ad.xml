@@ -51,9 +51,19 @@
         android:layout_height="1dp"
         android:background="#EEF0F2" />
 
-    <FrameLayout
-        android:id="@+id/ad_container"
+    <!-- 激励视频全屏展示、不渲染进页面，这里只留弹性行把 Console 顶到底部 -->
+    <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <!-- 回调日志区：所有回调不再弹 Toast，统一追加到这里；扫帚按钮一键清空 -->
+    <com.atfo.ad.demo.view.ConsoleView
+        android:id="@+id/console_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp" />
 </LinearLayout>

@@ -11,7 +11,6 @@ import com.atfo.ad.demo.utils.AdPriceUtils
 import com.atfo.ad.demo.utils.applyStatusBarPadding
 import com.atfo.ad.demo.utils.dp
 import com.atfo.ad.demo.utils.lightStatusBar
-import com.atfo.ad.demo.utils.logAndToast
 import com.atfo.ad.demo.view.SelfRenderAdView
 import com.atfo.ad.listener.ATFOAdError
 import com.atfo.ad.listener.AdInteractionListener
@@ -25,7 +24,7 @@ import com.atfo.ad.model.hasRenderableMaterial
  * [com.atfo.ad.model.ATFOAd.registerInteraction] 绑定点击/关闭与曝光，上报仍由 SDK 统一负责。
  * 模板渲染物料请看 [FeedAdActivity]。代码位取 `atfo.feedSelfRenderSlotId`，后台需配成「自渲染」。
  * 进页面不自动加载，点「加载广告」才发起请求，加载成功后点「展示广告」。
- * 本页只负责展示与回调，每个回调都打日志并弹 Toast，不做任何跳转。
+ * 本页只负责展示与回调，每个回调都打日志并追加到页面底部的 ConsoleView，不做任何跳转。
  */
 class FeedSelfRenderAdActivity : AppCompatActivity() {
 
@@ -64,13 +63,13 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
             override fun onAdLoadSuccess(adObject: ATFOAd) {
                 val msg = "信息流自渲染广告加载成功, adId=${adObject.adId}, price=${AdPriceUtils.getPrice(adObject)}, " +
                         "renderType=${if (adObject.isNativeExpress()) "模板" else "自渲染"}"
-                logAndToast(msg)
+                logToConsole(msg)
                 feedAdObject = adObject
             }
 
             override fun onAdLoadFailed(error: ATFOAdError) {
                 val msg = "信息流自渲染广告加载失败, code=${error.code}, message=${error.message}"
-                logAndToast(msg, Log.ERROR)
+                logToConsole(msg, Log.ERROR)
             }
         })
     }
@@ -79,17 +78,17 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         val adObject = feedAdObject
         if (adObject == null) {
             val msg = "尚未加载到广告，请先点击「加载广告」"
-            logAndToast(msg, Log.WARN)
+            logToConsole(msg, Log.WARN)
             return
         }
         if (!adObject.isValid()) {
             val msg = "信息流自渲染广告已失效，请重新加载"
-            logAndToast(msg, Log.WARN)
+            logToConsole(msg, Log.WARN)
             return
         }
         if (adObject.isNativeExpress()) {
             val msg = "该代码位返回的是模板渲染物料，请检查后台代码位配置"
-            logAndToast(msg, Log.WARN)
+            logToConsole(msg, Log.WARN)
             return
         }
         showSelfRenderAd(adObject)
@@ -100,7 +99,7 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
         val info = adObject.nativeInfo
         if (info == null || !info.hasRenderableMaterial()) {
             val msg = "自渲染广告物料为空或不足"
-            logAndToast(msg, Log.ERROR)
+            logToConsole(msg, Log.ERROR)
             return
         }
 
@@ -138,38 +137,43 @@ class FeedSelfRenderAdActivity : AppCompatActivity() {
     private fun interactionListener(): AdInteractionListener = object : AdInteractionListener {
         override fun onAdShowSuccess() {
             val msg = "信息流自渲染广告展示成功"
-            logAndToast(msg)
+            logToConsole(msg)
         }
 
         override fun onAdShowFailed(errorCode: Int, errorMessage: String) {
             val msg = "信息流自渲染广告展示失败, code=$errorCode, message=$errorMessage"
-            logAndToast(msg, Log.ERROR)
+            logToConsole(msg, Log.ERROR)
         }
 
         override fun onAdClicked() {
             val msg = "信息流自渲染广告被点击"
-            logAndToast(msg)
+            logToConsole(msg)
         }
 
         override fun onAdClosed() {
             val msg = "信息流自渲染广告被关闭"
-            logAndToast(msg)
+            logToConsole(msg)
         }
 
         override fun onAdRenderFail(errorCode: Int, errorMessage: String) {
             val msg = "信息流自渲染广告渲染失败, code=$errorCode, message=$errorMessage"
-            logAndToast(msg, Log.ERROR)
+            logToConsole(msg, Log.ERROR)
         }
 
         override fun onAdExposed() {
             val msg = "信息流自渲染广告曝光"
-            logAndToast(msg)
+            logToConsole(msg)
         }
 
         override fun onReward() {
             val msg = "信息流自渲染广告收到奖励回调"
-            logAndToast(msg)
+            logToConsole(msg)
         }
+    }
+
+    /** 打日志并追加到 ConsoleView（各回调统一走这里）；线程切换、格式化、清空都由 ConsoleView 负责。 */
+    private fun logToConsole(msg: String, priority: Int = Log.DEBUG) {
+        binding.consoleView.log(msg, priority, "ATFO${this::class.java.simpleName}")
     }
 
     /** 释放当前广告对象；重新加载前与 onDestroy 调用。 */

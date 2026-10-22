@@ -51,9 +51,22 @@
         android:layout_height="1dp"
         android:background="#EEF0F2" />
 
+    <!-- 通知广告按信息流模板渲染，showAd 需要传容器，布局上保留但不涂黄色底 -->
     <FrameLayout
         android:id="@+id/ad_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1" />
+
+    <!-- 回调日志区：所有回调不再弹 Toast，统一追加到这里；扫帚按钮一键清空 -->
+    <com.atfo.ad.demo.view.ConsoleView
+        android:id="@+id/console_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp" />
 </LinearLayout>

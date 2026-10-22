@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.atfo.ad.demo.config.DemoConfig
 import com.atfo.ad.demo.databinding.ActivityMainBinding
 import com.atfo.ad.demo.feed.FeedAdActivity
 import com.atfo.ad.demo.feed.FeedSelfRenderAdActivity
@@ -39,13 +38,6 @@ class MainActivity : AppCompatActivity() {
         launch(binding.rowReward, RewardAdActivity::class.java)
         launch(binding.rowNotify, NotifyAdActivity::class.java)
         launch(binding.rowSettings, SettingsActivity::class.java)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.tvState.text =
-            if (DemoConfig.isAccountConfigured()) DemoConfig.describe()
-            else "appId / secret 仍是占位值，请在 local.properties 配置后重新编译"
     }
 
     private fun launch(row: View, target: Class<out AppCompatActivity>) {

@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#F7C948" />
+        android:background="@color/ad_container_bg" />
 
     <!-- 回调日志区：所有回调不再弹 Toast，统一追加到这里；ConsoleView 可复用，扫帚按钮一键清空 -->
     <com.atfo.ad.demo.view.ConsoleView
