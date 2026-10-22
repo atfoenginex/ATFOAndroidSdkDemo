@@ -73,7 +73,7 @@
 
                     <TextView
                         style="@style/Widget.AtfoDemo.EntryRowDesc"
-                        android:text="SDK 调试面板：配置缓存、AB 实验分组、日志导出" />
+                        android:text="SDK 调试面板：日志导出" />
                 </LinearLayout>
 
                 <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />

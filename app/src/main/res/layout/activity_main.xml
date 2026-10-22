@@ -102,7 +102,7 @@
 
                     <TextView
                         style="@style/Widget.AtfoDemo.EntryRowDesc"
-                        android:text="宿主渲染卡片，SDK 只提供媒体位" />
+                        android:text="宿主渲染卡片，SDK 提供物料" />
                 </LinearLayout>
 
                 <ImageView style="@style/Widget.AtfoDemo.EntryRowChevron" />
