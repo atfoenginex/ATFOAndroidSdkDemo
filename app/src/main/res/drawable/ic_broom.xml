@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+    <!-- 扫帚：斜柄 + 梯形刷头 + 三撮刷毛，线条风格与 ic_close 保持一致 -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12.5,2.5 L10.5,9"
+        android:strokeColor="@color/console_icon"
+        android:strokeLineCap="round"
+        android:strokeWidth="1.6" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7,9 L13,9 L14.2,14.5 L5.8,14.5 Z"
+        android:strokeColor="@color/console_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="1.6" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.5,14.5 L6.8,17.5 M10,14.5 L10,17.5 M12.5,14.5 L13.2,17.5"
+        android:strokeColor="@color/console_icon"
+        android:strokeLineCap="round"
+        android:strokeWidth="1.6" />
+</vector>
